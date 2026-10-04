@@ -6,7 +6,9 @@ A Facebook-style community app for pickleball players, built with **Next.js 15 (
 
 - **Accounts**: email/password sign-up and login, session handled by Supabase SSR cookies, protected routes via middleware.
 - **Player profiles**: avatar, cover photo, bio, skill rating (2.0–5.5), preferred format, paddle, location, follower counts.
-- **News feed**: text + photo posts, likes, comments, delete your own posts, and "Everyone" / "Following" tabs.
+- **News feed**: text + photo posts, likes, comments, delete your own posts, and "For you" / "Following" / "Latest" tabs.
+  "For you" is a ranked feed (`src/lib/feed.ts`): it scores posts by likes/comments, how close you are to the author
+  (follows, clubs, past likes and comments) and freshness, so brand-new accounts still see popular posts from everyone.
 - **Follow system**: follow players, with player suggestions near your skill level.
 - **Clubs**: create a club (with cover photo), join or leave, member roster, and a feed only club members can post to.
 - **Courts directory**: browse and search courts, filter indoor/outdoor, add new courts, **check in** to show you're playing now, and see the live "On court now" list.
