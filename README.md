@@ -1,4 +1,4 @@
-# Dinkly — the social network for pickleball players
+# Pickl — the social network for pickleball players
 
 A Facebook-style community app for pickleball players, built with **Next.js 15 (App Router)**, **TypeScript**, **Tailwind CSS v4** and **Supabase** (Postgres, Auth, Storage).
 

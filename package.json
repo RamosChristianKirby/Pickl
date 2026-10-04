@@ -1,8 +1,8 @@
 {
-  "name": "dinkly",
+  "name": "pickl",
   "version": "1.0.0",
   "private": true,
-  "description": "Dinkly \u2014 the social network for pickleball players. Built with Next.js + Supabase.",
+  "description": "Pickl \u2014 the social network for pickleball players. Built with Next.js + Supabase.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

@@ -1,11 +1,11 @@
 -- =====================================================================
---  Dinkly — COMPLETE database setup (schema + all migrations).
+--  Pickl — COMPLETE database setup (schema + all migrations).
 --  Paste this whole file into Supabase → SQL Editor and click Run.
 --  Safe to run again at any time.
 -- =====================================================================
 
 -- =====================================================================
---  Dinkly — Supabase schema
+--  Pickl — Supabase schema
 --  Run this whole file once in: Supabase Dashboard → SQL Editor → New query
 --  Safe to re-run: it drops and recreates policies/triggers it owns.
 -- =====================================================================
@@ -603,6 +603,9 @@ revoke execute on function public.notify(uuid, uuid, text, uuid, uuid) from publ
 revoke execute on function public.mark_notifications_read() from public, anon;
 grant  execute on function public.mark_notifications_read() to authenticated;
 
+-- is_club_member only reads club_members, which signed-in users can already see,
+-- so it doesn't need elevated (SECURITY DEFINER) rights.
+alter function public.is_club_member(uuid) security invoker;
 revoke execute on function public.is_club_member(uuid) from public, anon;
 grant  execute on function public.is_club_member(uuid) to authenticated;
 

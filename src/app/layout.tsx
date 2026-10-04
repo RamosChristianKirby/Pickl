@@ -10,8 +10,8 @@ const jakarta = Plus_Jakarta_Sans({
 
 export const metadata: Metadata = {
   title: {
-    default: "Dinkly — The social network for pickleball players",
-    template: "%s · Dinkly",
+    default: "Pickl — The social network for pickleball players",
+    template: "%s · Pickl",
   },
   description:
     "Connect with pickleball players near you, join clubs, find courts and see who's playing right now.",

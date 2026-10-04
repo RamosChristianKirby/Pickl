@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { SignupForm } from "./SignupForm";
 
-export const metadata: Metadata = { title: "Join Dinkly" };
+export const metadata: Metadata = { title: "Join Pickl" };
 
 export default function SignupPage() {
   return (

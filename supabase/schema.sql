@@ -1,5 +1,5 @@
 -- =====================================================================
---  Dinkly — Supabase schema
+--  Pickl — Supabase schema
 --  Run this whole file once in: Supabase Dashboard → SQL Editor → New query
 --  Safe to re-run: it drops and recreates policies/triggers it owns.
 -- =====================================================================

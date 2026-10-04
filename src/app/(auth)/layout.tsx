@@ -8,7 +8,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         <div className="flex flex-1 items-center justify-center py-10">
           <div className="w-full max-w-sm">{children}</div>
         </div>
-        <p className="text-xs text-slate-400">© {new Date().getFullYear()} Dinkly. Made for the kitchen line.</p>
+        <p className="text-xs text-slate-400">© {new Date().getFullYear()} Pickl. Made for the kitchen line.</p>
       </div>
 
       <div className="relative hidden overflow-hidden bg-brand-800 lg:block">

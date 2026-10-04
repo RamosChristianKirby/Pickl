@@ -18,7 +18,7 @@ export default async function LoginPage({
         <LoginForm next={next ?? "/feed"} initialError={error} />
       </div>
       <p className="mt-6 text-center text-sm text-slate-500">
-        New to Dinkly?{" "}
+        New to Pickl?{" "}
         <Link href="/signup" className="font-semibold text-brand-700 hover:underline">
           Create an account
         </Link>

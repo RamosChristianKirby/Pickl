@@ -121,7 +121,7 @@ export async function RightSidebar({ viewer }: { viewer: Profile }) {
         )}
       </section>
 
-      <p className="px-2 text-xs text-slate-400">© {new Date().getFullYear()} Dinkly · Play fair, call it out.</p>
+      <p className="px-2 text-xs text-slate-400">© {new Date().getFullYear()} Pickl · Play fair, call it out.</p>
     </div>
   );
 }

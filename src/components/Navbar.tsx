@@ -16,7 +16,7 @@ export function Navbar({ viewer }: { viewer: Profile }) {
             <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
             <input
               name="q"
-              placeholder="Search Dinkly"
+              placeholder="Search Pickl"
               aria-label="Search players, clubs and courts"
               className="h-10 w-full rounded-full bg-slate-100 pl-9 pr-3 text-sm outline-none ring-brand-500 transition placeholder:text-slate-500 focus:bg-white focus:ring-2"
             />

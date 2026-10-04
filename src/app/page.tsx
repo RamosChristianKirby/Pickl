@@ -54,7 +54,7 @@ export default function LandingPage() {
               </span>
             </h1>
             <p className="mt-6 max-w-xl text-lg text-slate-600">
-              Dinkly connects players, clubs and courts. Post your wins, find your next doubles partner and see who&apos;s
+              Pickl connects players, clubs and courts. Post your wins, find your next doubles partner and see who&apos;s
               on the courts right now.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
@@ -65,6 +65,9 @@ export default function LandingPage() {
                 I already have an account
               </Link>
             </div>
+            <p className="mt-6 flex items-center gap-2 text-sm text-slate-500">
+              <Shield className="h-4 w-4 text-brand-600" /> Free forever for players. No ads in your feed.
+            </p>
           </div>
 
           <HeroPreview />
@@ -95,12 +98,12 @@ export default function LandingPage() {
         <div className="mx-auto flex max-w-6xl flex-col items-center gap-6 px-4 text-center sm:px-6">
           <h2 className="text-3xl font-bold tracking-tight text-white">Ready to get out of the kitchen?</h2>
           <Link href="/signup" className="btn-ball px-6 py-3 text-base">
-            Join Dinkly — it&apos;s free <ArrowRight className="h-4 w-4" />
+            Join Pickl — it&apos;s free <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
       </section>
 
-      <footer className="py-8 text-center text-sm text-slate-400">© {new Date().getFullYear()} Dinkly</footer>
+      <footer className="py-8 text-center text-sm text-slate-400">© {new Date().getFullYear()} Pickl</footer>
     </div>
   );
 }

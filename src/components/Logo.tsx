@@ -21,11 +21,11 @@ export function LogoMark({ className }: { className?: string }) {
 
 export function Logo({ href = "/", compact = false, light = false }: { href?: string; compact?: boolean; light?: boolean }) {
   return (
-    <Link href={href} className="flex items-center gap-2.5" aria-label="Dinkly home">
+    <Link href={href} className="flex items-center gap-2.5" aria-label="Pickl home">
       <LogoMark />
       {!compact && (
         <span className={cn("text-xl font-extrabold tracking-tight", light ? "text-white" : "text-ink")}>
-          dinkly
+          pickl
         </span>
       )}
     </Link>
