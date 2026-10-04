@@ -33,7 +33,7 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
   return (
     <div className="mx-auto max-w-2xl space-y-4">
       <form className="card relative p-2">
-        <Search className="pointer-events-none absolute left-5 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
+        <Search className="pointer-events-none absolute left-5 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-500" />
         <input
           name="q"
           defaultValue={rawQ ?? ""}
@@ -71,7 +71,7 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
                 <p className="truncate text-sm font-medium text-ink">{c.name}</p>
                 {c.location && <p className="truncate text-xs text-slate-500">{c.location}</p>}
               </div>
-              <Users className="h-4 w-4 text-slate-400" />
+              <Users className="h-4 w-4 text-slate-500" />
             </Link>
           ))}
         </section>

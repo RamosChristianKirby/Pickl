@@ -13,7 +13,7 @@ export function Navbar({ viewer }: { viewer: Profile }) {
         <div className="flex min-w-0 items-center gap-3">
           <Logo href="/feed" compact />
           <form action="/search" className="relative hidden w-full max-w-60 sm:block">
-            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
             <input
               name="q"
               placeholder="Search Pickl"

@@ -106,6 +106,16 @@ supabase/
 - **Browser protections.** `next.config.ts` sends a Content-Security-Policy, clickjacking protection (`X-Frame-Options: DENY`), `nosniff`, a strict referrer policy and HSTS in production.
 - **Keep secrets secret.** Only the URL and the publishable/anon key belong in `.env.local`. Never put the `service_role`/secret key in the app or commit `.env.local` to Git.
 
+## Legal & compliance
+
+- Public pages: `/privacy`, `/terms`, `/cookies`, `/data-deletion`, `/licenses` (written for the Philippine Data Privacy Act). Business details live in `src/lib/site.ts` — update them there.
+- Sign-up requires agreeing to the Terms/Privacy Policy and confirming the minimum age (13+); the consent time and policy version are saved with the account.
+- Only essential sign-in cookies are used; a small notice explains this (no tracking, nothing to opt out of).
+- Settings → **Delete account** removes the account, photos and all data (`007_account_deletion.sql`).
+- Only account emails (confirmation / password reset) are sent — no marketing, so no unsubscribe list is needed.
+- Accessibility: visible keyboard focus, a "Skip to content" link, alt text on post photos and stronger text contrast.
+- *This is not legal advice — have the documents reviewed by a lawyer before launching widely.*
+
 ## Hidden sections
 
 Feature switches live in `src/lib/features.ts`. The Players page is currently turned off (`players: false`):

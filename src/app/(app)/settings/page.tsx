@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { DeleteAccount } from "./DeleteAccount";
 import { ProfileForm } from "./ProfileForm";
 import { requireViewer } from "@/lib/data";
 
@@ -27,6 +28,7 @@ export default async function SettingsPage({ searchParams }: { searchParams: Pro
           <ProfileForm viewer={viewer} />
         </div>
       </div>
+      <DeleteAccount />
     </div>
   );
 }

@@ -35,7 +35,7 @@ export default async function ClubsPage({ searchParams }: { searchParams: Promis
         </div>
         <div className="flex w-full gap-2 sm:w-auto">
           <form className="relative min-w-0 flex-1 sm:flex-none">
-            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
             <input name="q" defaultValue={rawQ ?? ""} placeholder="Search clubs" className="input w-full pl-9 sm:w-56" />
           </form>
           <Link href="/clubs/new" className="btn-primary whitespace-nowrap">
@@ -73,7 +73,7 @@ export default async function ClubsPage({ searchParams }: { searchParams: Promis
                   </div>
                   <Link href={`/clubs/${club.slug}`} className="flex items-center gap-1.5 font-semibold text-ink hover:underline">
                     {club.name}
-                    {club.visibility === "private" && <Lock className="h-3.5 w-3.5 text-slate-400" aria-label="Private club" />}
+                    {club.visibility === "private" && <Lock className="h-3.5 w-3.5 text-slate-500" aria-label="Private club" />}
                   </Link>
                   <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-500">
                     <span className="flex items-center gap-1">

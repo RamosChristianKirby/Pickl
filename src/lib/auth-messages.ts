@@ -3,6 +3,7 @@ export const LINK_EXPIRED_MESSAGE =
 
 export const NOTICES: Record<string, string> = {
   confirmed: "Your email is confirmed! Log in to start playing.",
+  deleted: "Your account and data have been deleted. Thanks for playing with Pickl.",
 };
 
 /** Only allow same-site relative paths as redirect targets. */

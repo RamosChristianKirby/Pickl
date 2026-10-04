@@ -42,7 +42,7 @@ export default async function PlayersPage({
         <p className="mt-1 text-sm text-slate-500">Discover partners and opponents at your level.</p>
         <form className="mt-4 grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto_auto_auto_auto]">
           <div className="relative">
-            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
             <input name="q" defaultValue={sp.q ?? ""} placeholder="Name, username or location" className="input pl-9" />
           </div>
           <input name="min" type="number" min={0} step={25} defaultValue={sp.min ?? ""} placeholder="Min rating" className="input sm:w-32" aria-label="Minimum Pickl Rating" />

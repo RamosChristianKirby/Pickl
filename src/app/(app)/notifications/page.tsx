@@ -44,7 +44,7 @@ export default async function NotificationsPage() {
                       <span className="font-semibold text-ink">{actorName}</span> {d.text}
                     </p>
                     {d.preview && <p className="truncate text-xs text-slate-500">“{d.preview}”</p>}
-                    <p className="mt-0.5 text-xs text-slate-400">{timeAgo(n.created_at)}</p>
+                    <p className="mt-0.5 text-xs text-slate-500">{timeAgo(n.created_at)}</p>
                   </div>
                   {!n.read_at && <span className="mt-2 h-2.5 w-2.5 shrink-0 rounded-full bg-brand-500" />}
                 </Link>

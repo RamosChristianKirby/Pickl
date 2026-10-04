@@ -39,7 +39,7 @@
 }
 
 @utility input {
-    @apply block w-full rounded-xl border-0 bg-slate-50 px-3.5 py-2.5 text-base text-slate-900 ring-1 sm:text-sm ring-slate-200 placeholder:text-slate-400 transition focus:bg-white focus:ring-2 focus:ring-brand-500 focus:outline-none;
+    @apply block w-full rounded-xl border-0 bg-slate-50 px-3.5 py-2.5 text-base text-slate-900 ring-1 sm:text-sm ring-slate-200 placeholder:text-slate-500 transition focus:bg-white focus:ring-2 focus:ring-brand-500 focus:outline-none;
 }
 
 @utility label {
@@ -149,4 +149,46 @@
 .dk-range:disabled {
   opacity: 0.5;
   cursor: default;
+}
+
+/* ---------- Accessibility: visible keyboard focus everywhere ---------- */
+@layer base {
+  :focus-visible {
+    outline: 2px solid var(--color-brand-600);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+  .skip-link {
+    position: absolute;
+    left: 12px;
+    top: -60px;
+    z-index: 100;
+    padding: 10px 16px;
+    border-radius: 10px;
+    background: var(--color-ink);
+    color: #fff;
+    font-weight: 700;
+    transition: top 0.15s;
+  }
+  .skip-link:focus {
+    top: 12px;
+  }
+}
+
+/* ---------- Legal pages (Privacy, Terms, Cookies…) ---------- */
+@layer components {
+  .legal h1 { font-size: 2rem; line-height: 1.2; font-weight: 800; letter-spacing: -0.02em; color: var(--color-ink); }
+  .legal .lead { margin-top: 0.5rem; color: #475569; }
+  .legal h2 { margin-top: 2.25rem; font-size: 1.2rem; font-weight: 700; color: var(--color-ink); }
+  .legal p, .legal li, .legal td, .legal th { font-size: 0.95rem; line-height: 1.7; color: #334155; }
+  .legal p { margin-top: 0.75rem; }
+  .legal ul, .legal ol { margin-top: 0.75rem; padding-left: 1.25rem; }
+  .legal ul { list-style: disc; }
+  .legal ol { list-style: decimal; }
+  .legal li { margin-top: 0.35rem; }
+  .legal a { color: var(--color-brand-700); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+  .legal table { margin-top: 1rem; width: 100%; border-collapse: collapse; }
+  .legal th { text-align: left; font-weight: 700; color: var(--color-ink); background: #f8fafc; }
+  .legal th, .legal td { border: 1px solid #e2e8f0; padding: 0.6rem 0.75rem; vertical-align: top; }
+  .legal code { font-size: 0.85em; background: #f1f5f9; padding: 0.1rem 0.3rem; border-radius: 4px; }
 }

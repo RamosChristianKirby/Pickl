@@ -57,7 +57,7 @@ export function Comments({
   return (
     <div className="border-t border-slate-100 px-4 pb-4 pt-3">
       {comments === null ? (
-        <div className="flex justify-center py-3 text-slate-400">
+        <div className="flex justify-center py-3 text-slate-500">
           <Loader2 className="h-5 w-5 animate-spin" />
         </div>
       ) : (

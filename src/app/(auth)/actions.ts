@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import type { ActionState } from "@/lib/types";
 import { USERNAME_RULE, isValidUsername } from "@/lib/utils";
+import { SITE } from "@/lib/site";
 
 function safeNext(next: FormDataEntryValue | null) {
   const value = typeof next === "string" ? next : "";
@@ -62,6 +63,8 @@ export async function signup(_prev: ActionState, formData: FormData): Promise<Ac
   if (!username) return { error: "Please choose a username." };
   if (!isValidUsername(username)) return { error: USERNAME_RULE };
   if (password.length < 8) return { error: "Password must be at least 8 characters." };
+  if (formData.get("terms") !== "on") return { error: "Please agree to the Terms of Service and Privacy Policy." };
+  if (formData.get("age") !== "on") return { error: `You must be at least ${SITE.minAge} to join Pickl.` };
 
   const supabase = await createClient();
 
@@ -74,7 +77,8 @@ export async function signup(_prev: ActionState, formData: FormData): Promise<Ac
     email,
     password,
     options: {
-      data: { username, full_name: fullName },
+      // Record when and to which policy version they agreed (proof of consent).
+      data: { username, full_name: fullName, terms_version: SITE.policyVersion, consented_at: new Date().toISOString(), age_confirmed: true },
       emailRedirectTo: `${origin}/auth/callback?next=/settings`,
     },
   });

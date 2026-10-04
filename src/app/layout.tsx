@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
+import { CookieNotice } from "@/components/CookieNotice";
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -27,7 +28,13 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={jakarta.variable}>
-      <body className="min-h-screen font-sans">{children}</body>
+      <body className="min-h-screen font-sans">
+        <a href="#main" className="skip-link">
+          Skip to content
+        </a>
+        {children}
+        <CookieNotice />
+      </body>
     </html>
   );
 }

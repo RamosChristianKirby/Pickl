@@ -96,7 +96,7 @@ export default async function CourtPage({ params }: Props) {
           </div>
           {court.notes && (
             <p className="mt-4 flex gap-2 rounded-xl bg-slate-50 p-3 text-sm text-slate-600">
-              <Info className="mt-0.5 h-4 w-4 shrink-0 text-slate-400" /> {court.notes}
+              <Info className="mt-0.5 h-4 w-4 shrink-0 text-slate-500" /> {court.notes}
             </p>
           )}
         </div>
@@ -146,9 +146,9 @@ export default async function CourtPage({ params }: Props) {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-400 opacity-75" />
               <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-brand-500" />
             </span>
-            On court now <span className="text-slate-400">· {activeNow.length}</span>
+            On court now <span className="text-slate-500">· {activeNow.length}</span>
           </h2>
-          <span className="text-xs text-slate-400">Check-ins from the last {ACTIVE_CHECKIN_HOURS} hours</span>
+          <span className="text-xs text-slate-500">Check-ins from the last {ACTIVE_CHECKIN_HOURS} hours</span>
         </div>
 
         <div className="mt-4">
@@ -167,7 +167,7 @@ export default async function CourtPage({ params }: Props) {
       {recent.length > 0 && (
         <section className="card p-5">
           <h2 className="flex items-center gap-2 font-semibold text-ink">
-            <Clock className="h-4 w-4 text-slate-400" /> Recent visitors
+            <Clock className="h-4 w-4 text-slate-500" /> Recent visitors
           </h2>
           <ul className="mt-2 divide-y divide-slate-100">
             {recent.map((c) => (
@@ -208,7 +208,7 @@ function CheckInItem({ c }: { c: CheckInRow }) {
         </div>
         {c.note && <p className="truncate text-sm text-slate-600">“{c.note}”</p>}
       </div>
-      <span className="shrink-0 text-xs text-slate-400">{timeAgo(c.created_at)}</span>
+      <span className="shrink-0 text-xs text-slate-500">{timeAgo(c.created_at)}</span>
     </li>
   );
 }

@@ -1,14 +1,15 @@
 import { Logo } from "@/components/Logo";
+import { SiteFooter } from "@/components/SiteFooter";
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="grid min-h-screen lg:grid-cols-2">
       <div className="flex flex-col px-6 py-8 sm:px-12">
         <Logo />
-        <div className="flex flex-1 items-center justify-center py-10">
+        <main id="main" className="flex flex-1 items-center justify-center py-10">
           <div className="w-full max-w-sm">{children}</div>
-        </div>
-        <p className="text-xs text-slate-400">© {new Date().getFullYear()} Pickl. Made for the kitchen line.</p>
+        </main>
+        <SiteFooter compact />
       </div>
 
       <div className="relative hidden overflow-hidden bg-brand-800 lg:block">

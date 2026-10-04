@@ -19,7 +19,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
           </Suspense>
         </aside>
 
-        <main className="min-w-0">{children}</main>
+        <main id="main" className="min-w-0">{children}</main>
 
         <aside className="sticky top-20 hidden h-[calc(100vh-6rem)] overflow-y-auto xl:block">
           <Suspense fallback={<SidebarSkeleton />}>

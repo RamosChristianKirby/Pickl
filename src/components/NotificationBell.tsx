@@ -118,7 +118,7 @@ export function NotificationBell({ viewerId }: { viewerId: string }) {
                     <span className="font-semibold text-ink">{n.actor?.full_name || n.actor?.username || "Someone"}</span> {d.text}
                   </p>
                   {d.preview && <p className="truncate text-xs text-slate-500">“{d.preview}”</p>}
-                  <p className={cn("mt-0.5 text-xs", n.read_at ? "text-slate-400" : "font-semibold text-brand-700")} suppressHydrationWarning>
+                  <p className={cn("mt-0.5 text-xs", n.read_at ? "text-slate-500" : "font-semibold text-brand-700")} suppressHydrationWarning>
                     {timeAgo(n.created_at)}
                   </p>
                 </div>

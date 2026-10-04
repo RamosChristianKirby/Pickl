@@ -3,6 +3,7 @@ import { MapPin } from "lucide-react";
 import { Avatar } from "./Avatar";
 import { RatingBadge } from "./RatingBadge";
 import { FollowButton } from "./FollowButton";
+import { SiteFooter } from "./SiteFooter";
 import { createClient } from "@/lib/supabase/server";
 import { PROFILE_LITE, getFollowingIds } from "@/lib/data";
 import { activeSince, profileHref } from "@/lib/utils";
@@ -119,7 +120,9 @@ export async function RightSidebar({ viewer }: { viewer: Profile }) {
         )}
       </section>
 
-      <p className="px-2 text-xs text-slate-400">© {new Date().getFullYear()} Pickl · Play fair, call it out.</p>
+      <div className="px-2">
+        <SiteFooter compact />
+      </div>
     </div>
   );
 }

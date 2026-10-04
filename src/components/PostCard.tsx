@@ -126,9 +126,14 @@ export function PostCard({
       {post.image_url && (
         // Like Facebook: the whole photo is shown at its own shape, full width of the post.
         // Very tall photos are capped and centred on a soft background instead of being cropped.
-        <a href={post.image_url} target="_blank" rel="noopener noreferrer" className="mt-3 block bg-slate-100" aria-label="Open photo">
+        <a href={post.image_url} target="_blank" rel="noopener noreferrer" className="mt-3 block bg-slate-100" aria-label="Open photo in a new tab">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={post.image_url} alt="" className="block h-auto max-h-[min(85vh,750px)] w-full object-contain" loading="lazy" />
+          <img
+            src={post.image_url}
+            alt={post.content ? `Photo shared by ${post.author.full_name || post.author.username}: ${post.content.slice(0, 120)}` : `Photo shared by ${post.author.full_name || post.author.username}`}
+            className="block h-auto max-h-[min(85vh,750px)] w-full object-contain"
+            loading="lazy"
+          />
         </a>
       )}
 
