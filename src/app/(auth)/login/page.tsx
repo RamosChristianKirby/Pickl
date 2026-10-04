@@ -1,21 +1,22 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { LoginForm } from "./LoginForm";
+import { NOTICES } from "@/lib/auth-messages";
 
 export const metadata: Metadata = { title: "Log in" };
 
 export default async function LoginPage({
   searchParams,
 }: {
-  searchParams: Promise<{ next?: string; error?: string }>;
+  searchParams: Promise<{ next?: string; error?: string; notice?: string }>;
 }) {
-  const { next, error } = await searchParams;
+  const { next, error, notice } = await searchParams;
   return (
     <>
       <h1 className="text-2xl font-bold tracking-tight text-ink">Welcome back</h1>
       <p className="mt-1 text-sm text-slate-500">Log in to see what your crew is up to.</p>
       <div className="mt-8">
-        <LoginForm next={next ?? "/feed"} initialError={error} />
+        <LoginForm next={next ?? "/feed"} initialError={error} initialNotice={notice ? NOTICES[notice] : undefined} />
       </div>
       <p className="mt-6 text-center text-sm text-slate-500">
         New to Pickl?{" "}

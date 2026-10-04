@@ -1,21 +1,26 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { createClient } from "@/lib/supabase/server";
+import { LINK_EXPIRED_MESSAGE, safeNextPath } from "@/lib/auth-messages";
 
 /**
- * OAuth / PKCE code-exchange handler.
- * Note: PKCE links only work in the same browser that started the sign-up.
- * For email confirmation, prefer /auth/confirm (see README).
+ * Email-confirmation (PKCE) handler.
+ *
+ * How the confirmation link works: the link in the email first goes to Supabase, which checks the
+ * token and marks the email as confirmed. Only after that succeeds does Supabase send the browser
+ * here with a one-time `?code=`. So if we receive a code, the email IS confirmed — even when this
+ * browser can't turn the code into a session (e.g. the link was opened on another device).
+ * If the token was bad or expired, Supabase sends `?error_code=...` instead of a code.
  */
 export async function GET(request: NextRequest) {
   const { searchParams, origin } = request.nextUrl;
   const code = searchParams.get("code");
-  const nextParam = searchParams.get("next") ?? "/feed";
-  const next = nextParam.startsWith("/") && !nextParam.startsWith("//") ? nextParam : "/feed";
+  const next = safeNextPath(searchParams.get("next"));
 
-  // Supabase passes errors back as query params (e.g. otp_expired).
+  const errorCode = searchParams.get("error_code");
   const errorDescription = searchParams.get("error_description");
-  if (errorDescription) {
-    return NextResponse.redirect(`${origin}/login?error=${encodeURIComponent(errorDescription)}`);
+  if (errorCode || errorDescription) {
+    const message = errorCode === "otp_expired" ? LINK_EXPIRED_MESSAGE : (errorDescription ?? "That link didn't work.");
+    return NextResponse.redirect(`${origin}/login?error=${encodeURIComponent(message)}`);
   }
 
   if (code) {
@@ -23,14 +28,9 @@ export async function GET(request: NextRequest) {
     const { error } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) return NextResponse.redirect(`${origin}${next}`);
 
-    // Most common cause: the link was opened in a different browser/device than the one used to sign up.
-    // Supabase has usually already confirmed the email at this point, so logging in works.
-    return NextResponse.redirect(
-      `${origin}/login?error=${encodeURIComponent(
-        "Your email is probably confirmed, but this browser couldn't finish signing you in. Please log in below.",
-      )}`,
-    );
+    // Email is confirmed (see above); this browser just can't sign in automatically.
+    return NextResponse.redirect(`${origin}/login?notice=confirmed&next=${encodeURIComponent(next)}`);
   }
 
-  return NextResponse.redirect(`${origin}/login?error=${encodeURIComponent("That link is invalid or has expired.")}`);
+  return NextResponse.redirect(`${origin}/login?error=${encodeURIComponent("That link is incomplete. Try logging in below.")}`);
 }
