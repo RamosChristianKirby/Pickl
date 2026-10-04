@@ -6,9 +6,11 @@ import { Heart, MessageCircle, MoreHorizontal, Share2, Trash2, Users } from "luc
 import { Avatar } from "./Avatar";
 import { RatingBadge } from "./RatingBadge";
 import { Comments } from "./Comments";
+import { ShareDialog } from "./ShareDialog";
+import { SharedPostEmbed } from "./SharedPostEmbed";
 import { deletePost, toggleLike } from "@/lib/actions/social";
 import { cn, timeAgo, profileHref } from "@/lib/utils";
-import type { Post, ProfileLite } from "@/lib/types";
+import type { Post, ProfileLite, SharedPost } from "@/lib/types";
 
 export function PostCard({
   post,
@@ -27,7 +29,8 @@ export function PostCard({
   const [showComments, setShowComments] = useState(defaultShowComments);
   const [menuOpen, setMenuOpen] = useState(false);
   const [deleted, setDeleted] = useState(false);
-  const [copied, setCopied] = useState(false);
+  const [shareOpen, setShareOpen] = useState(false);
+  const [shareCount, setShareCount] = useState(post.share_count);
   const [, startTransition] = useTransition();
 
   if (deleted) return null;
@@ -53,15 +56,13 @@ export function PostCard({
     });
   };
 
-  const onShare = async () => {
-    const url = `${window.location.origin}/post/${post.id}`;
-    try {
-      await navigator.clipboard.writeText(url);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1800);
-    } catch {
-      /* clipboard not available */
-    }
+  // Sharing a share re-shares the original (like Facebook), unless the original is gone.
+  const shareTarget: SharedPost = post.shared ?? {
+    id: post.id,
+    content: post.content,
+    image_url: post.image_url,
+    created_at: post.created_at,
+    author: post.author,
   };
 
   return (
@@ -137,6 +138,12 @@ export function PostCard({
         </a>
       )}
 
+      {post.shared_post_id && (
+        <div className="px-4 pt-3">
+          <SharedPostEmbed shared={post.shared} />
+        </div>
+      )}
+
       <div className="flex items-center justify-between px-4 pt-3 text-sm text-slate-500">
         <span className="flex items-center gap-1.5">
           {likeCount > 0 && (
@@ -148,11 +155,18 @@ export function PostCard({
             </>
           )}
         </span>
-        {commentCount > 0 && (
-          <button type="button" onClick={() => setShowComments(true)} className="hover:underline">
-            {commentCount} {commentCount === 1 ? "comment" : "comments"}
-          </button>
-        )}
+        <span className="flex items-center gap-3">
+          {commentCount > 0 && (
+            <button type="button" onClick={() => setShowComments(true)} className="hover:underline">
+              {commentCount} {commentCount === 1 ? "comment" : "comments"}
+            </button>
+          )}
+          {shareCount > 0 && (
+            <span>
+              {shareCount} {shareCount === 1 ? "share" : "shares"}
+            </span>
+          )}
+        </span>
       </div>
 
       <div className="mx-4 mt-2 grid grid-cols-3 border-t border-slate-100 py-1">
@@ -176,12 +190,24 @@ export function PostCard({
         </button>
         <button
           type="button"
-          onClick={onShare}
+          onClick={() => setShareOpen(true)}
+          aria-haspopup="dialog"
           className="flex items-center justify-center gap-2 rounded-lg py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-50"
         >
-          <Share2 className="h-5 w-5" /> {copied ? "Link copied" : "Share"}
+          <Share2 className="h-5 w-5" /> Share
         </button>
       </div>
+
+      <ShareDialog
+        open={shareOpen}
+        onClose={() => setShareOpen(false)}
+        viewer={viewer}
+        original={shareTarget}
+        canShareToFeed={!post.club_id}
+        onShared={() => {
+          if (shareTarget.id === post.id) setShareCount((c) => c + 1);
+        }}
+      />
 
       {showComments && (
         <Comments postId={post.id} viewer={viewer} onCountChange={(d) => setCommentCount((c) => Math.max(0, c + d))} />

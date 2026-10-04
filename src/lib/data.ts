@@ -1,13 +1,13 @@
 import { cache } from "react";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import type { Post, Profile, ProfileLite } from "@/lib/types";
+import type { Post, Profile, ProfileLite, SharedPost } from "@/lib/types";
 import { safeDecode } from "@/lib/utils";
 
 export const PROFILE_LITE = "id, username, full_name, avatar_url, rating";
 
 export const POST_SELECT = `
-  id, content, image_url, created_at, club_id,
+  id, content, image_url, created_at, club_id, shared_post_id,
   author:profiles!posts_author_id_fkey ( ${PROFILE_LITE} ),
   club:clubs ( id, slug, name ),
   likes ( count ),
@@ -51,6 +51,7 @@ type RawPost = {
   club: Post["club"] | Post["club"][] | null;
   likes: { count: number }[];
   comments: { count: number }[];
+  shared_post_id: string | null;
 };
 
 const one = <T,>(v: T | T[] | null): T | null => (Array.isArray(v) ? (v[0] ?? null) : v);
@@ -61,6 +62,24 @@ export async function hydratePosts(rows: unknown[] | null, viewerId: string): Pr
   if (raw.length === 0) return [];
 
   const supabase = await createClient();
+  const ids = raw.map((p) => p.id);
+  const sharedIds = [...new Set(raw.map((p) => p.shared_post_id).filter((v): v is string => Boolean(v)))];
+
+  // Originals of shared posts (RLS hides deleted / club-only ones) and how often each post was shared.
+  const [{ data: originals }, { data: shareRows }] = await Promise.all([
+    sharedIds.length
+      ? supabase.from("posts").select(`id, content, image_url, created_at, author:profiles!posts_author_id_fkey ( ${PROFILE_LITE} )`).in("id", sharedIds)
+      : Promise.resolve({ data: [] as unknown[] }),
+    supabase.from("posts").select("shared_post_id").in("shared_post_id", ids),
+  ]);
+  const sharedMap = new Map<string, SharedPost>();
+  for (const o of (originals ?? []) as unknown as Array<SharedPost & { author: ProfileLite | ProfileLite[] }>) {
+    const author = Array.isArray(o.author) ? o.author[0] : o.author;
+    if (author) sharedMap.set(o.id, { ...o, author });
+  }
+  const shareCounts = new Map<string, number>();
+  for (const r of (shareRows ?? []) as { shared_post_id: string }[]) shareCounts.set(r.shared_post_id, (shareCounts.get(r.shared_post_id) ?? 0) + 1);
+
   const { data: myLikes } = await supabase
     .from("likes")
     .select("post_id")
@@ -82,7 +101,10 @@ export async function hydratePosts(rows: unknown[] | null, viewerId: string): Pr
       club: one(p.club),
       like_count: p.likes?.[0]?.count ?? 0,
       comment_count: p.comments?.[0]?.count ?? 0,
+      share_count: shareCounts.get(p.id) ?? 0,
       liked_by_me: liked.has(p.id),
+      shared_post_id: p.shared_post_id ?? null,
+      shared: p.shared_post_id ? (sharedMap.get(p.shared_post_id) ?? null) : null,
     }))
     .filter((p) => p.author);
 }

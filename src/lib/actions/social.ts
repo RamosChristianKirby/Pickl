@@ -15,10 +15,10 @@ async function getUserOrThrow() {
   return { supabase, user };
 }
 
-export async function createPost(input: { content: string; imageUrl?: string | null; clubId?: string | null }) {
+export async function createPost(input: { content: string; imageUrl?: string | null; clubId?: string | null; sharedPostId?: string | null }) {
   const { supabase, user } = await getUserOrThrow();
   const content = input.content.trim().slice(0, 2000);
-  if (!content && !input.imageUrl) return { error: "Write something or add a photo." };
+  if (!content && !input.imageUrl && !input.sharedPostId) return { error: "Write something or add a photo." };
   if (!isOwnMediaUrl(input.imageUrl, user.id)) return { error: "Invalid image." };
 
   const { error } = await supabase.from("posts").insert({
@@ -26,8 +26,10 @@ export async function createPost(input: { content: string; imageUrl?: string | n
     content,
     image_url: input.imageUrl ?? null,
     club_id: input.clubId ?? null,
+    shared_post_id: input.sharedPostId ?? null,
   });
   if (error) {
+    if (input.sharedPostId) return { error: "This post can't be shared." };
     return { error: input.clubId ? "Join this club to post here." : error.message };
   }
   revalidatePath("/", "layout");

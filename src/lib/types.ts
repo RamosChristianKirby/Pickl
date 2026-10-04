@@ -26,7 +26,20 @@ export type Post = {
   club: { id: string; slug: string; name: string } | null;
   like_count: number;
   comment_count: number;
+  share_count: number;
   liked_by_me: boolean;
+  /** Set when this post is a share of another post. */
+  shared_post_id: string | null;
+  /** The shared original (null when it was deleted or isn't visible to you). */
+  shared: SharedPost | null;
+};
+
+export type SharedPost = {
+  id: string;
+  content: string;
+  image_url: string | null;
+  created_at: string;
+  author: ProfileLite;
 };
 
 export type Comment = {
@@ -66,7 +79,7 @@ export type Court = {
 
 export type ActionState = { error?: string; success?: string } | undefined;
 
-export type NotificationType = "like" | "comment" | "follow" | "club_join" | "match_invite" | "match_result";
+export type NotificationType = "like" | "comment" | "follow" | "club_join" | "match_invite" | "match_result" | "share";
 
 export type AppNotification = {
   id: string;

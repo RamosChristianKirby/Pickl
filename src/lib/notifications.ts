@@ -35,6 +35,8 @@ export function describeNotification(n: AppNotification): { text: string; href: 
       return { text: "started following you.", href: n.actor ? profileHref(n.actor.username) : "/feed" };
     case "club_join":
       return { text: `joined your club ${n.club?.name ?? ""}.`, href: n.club ? `/clubs/${n.club.slug}` : "/clubs" };
+    case "share":
+      return { text: "shared your post.", href: n.post ? `/post/${n.post.id}` : "/feed", preview: n.post?.content || undefined };
     case "match_invite":
       return { text: "invited you to a ranked match. Open the Pickl app to accept.", href: n.actor ? profileHref(n.actor.username) : "/feed" };
     case "match_result":
