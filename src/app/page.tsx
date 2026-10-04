@@ -65,9 +65,6 @@ export default function LandingPage() {
                 I already have an account
               </Link>
             </div>
-            <p className="mt-6 flex items-center gap-2 text-sm text-slate-500">
-              <Shield className="h-4 w-4 text-brand-600" /> Free forever for players. No ads in your feed.
-            </p>
           </div>
 
           <HeroPreview />
