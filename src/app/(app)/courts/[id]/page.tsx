@@ -71,7 +71,7 @@ export default async function CourtPage({ params }: Props) {
             <line x1="60" y1="100" x2="310" y2="100" stroke="white" strokeWidth="3" />
             <line x1="490" y1="100" x2="740" y2="100" stroke="white" strokeWidth="3" />
           </svg>
-          <span className="absolute bottom-4 left-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-ball text-ink shadow-lg">
+          <span className="absolute bottom-4 left-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-ball text-navy shadow-lg">
             {court.indoor ? <Warehouse className="h-7 w-7" /> : <Sun className="h-7 w-7" />}
           </span>
         </div>

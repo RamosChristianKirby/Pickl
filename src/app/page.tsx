@@ -180,7 +180,7 @@ export default function LandingPage() {
           <ol className="mt-14 grid gap-6 md:grid-cols-3">
             {STEPS.map((s, i) => (
               <li key={s.title} className="rounded-2xl border border-slate-200 bg-white p-7 shadow-sm">
-                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-ink text-sm font-bold text-white">
+                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-navy text-sm font-bold text-white dark:bg-brand-600">
                   {i + 1}
                 </span>
                 <h3 className="mt-5 font-semibold text-ink">{s.title}</h3>
@@ -200,7 +200,7 @@ export default function LandingPage() {
           <h2 className="relative mt-6 text-3xl font-bold tracking-tight text-white sm:text-4xl [text-wrap:balance]">
             Your next game starts here
           </h2>
-          <p className="relative mx-auto mt-3 max-w-xl text-brand-100">
+          <p className="relative mx-auto mt-3 max-w-xl text-white/80">
             Join Pickl to connect with players, clubs and courts near you.
           </p>
           <div className="relative mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">

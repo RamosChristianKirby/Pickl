@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { CookieNotice } from "@/components/CookieNotice";
+import { THEME_SCRIPT } from "@/lib/theme";
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -19,7 +20,10 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0d7a42",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#0d7a42" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a101c" },
+  ],
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
@@ -27,7 +31,10 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={jakarta.variable}>
+    <html lang="en" className={jakarta.variable} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+      </head>
       <body className="min-h-screen font-sans">
         <a href="#main" className="skip-link">
           Skip to content

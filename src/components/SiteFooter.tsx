@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ThemeToggle } from "./ThemeToggle";
 import { LEGAL_LINKS, SITE } from "@/lib/site";
 
 /** Legal links + who runs Pickl. Used on the landing page, auth pages and legal pages. */
@@ -18,6 +19,7 @@ export function SiteFooter({ compact = false }: { compact?: boolean }) {
           {SITE.contactEmail}
         </a>
       </p>
+      <ThemeToggle showLabels={!compact} />
     </div>
   );
 }

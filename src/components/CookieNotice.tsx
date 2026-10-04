@@ -33,7 +33,7 @@ export function CookieNotice() {
   };
 
   return (
-    <div role="region" aria-label="Cookie notice" className="fixed inset-x-3 bottom-24 z-50 mx-auto max-w-xl rounded-2xl bg-ink p-4 text-sm text-slate-100 shadow-2xl ring-1 ring-white/10 sm:bottom-6">
+    <div role="region" aria-label="Cookie notice" className="fixed inset-x-3 bottom-24 z-50 mx-auto max-w-xl rounded-2xl bg-navy p-4 text-sm text-white/90 shadow-2xl ring-1 ring-white/10 sm:bottom-6">
       <div className="flex items-start gap-3">
         <Cookie className="mt-0.5 h-5 w-5 shrink-0 text-ball" aria-hidden />
         <p className="flex-1">
@@ -42,7 +42,7 @@ export function CookieNotice() {
             Cookie policy
           </Link>
         </p>
-        <button type="button" onClick={dismiss} className="rounded-lg bg-ball px-3 py-1.5 font-bold text-ink hover:brightness-95">
+        <button type="button" onClick={dismiss} className="rounded-lg bg-ball px-3 py-1.5 font-bold text-navy hover:brightness-95">
           Got it
         </button>
       </div>

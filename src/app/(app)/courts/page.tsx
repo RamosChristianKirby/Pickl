@@ -95,7 +95,7 @@ export default async function CourtsPage({
                 href={hrefWith({ type: t.key || null })}
                 className={cn(
                   "rounded-full px-3.5 py-1.5 text-sm font-medium transition",
-                  active ? "bg-ink text-white" : "bg-slate-100 text-slate-600 hover:bg-slate-200",
+                  active ? "bg-navy text-white dark:bg-brand-600" : "bg-slate-100 text-slate-600 hover:bg-slate-200",
                 )}
               >
                 {t.label}

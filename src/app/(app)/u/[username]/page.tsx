@@ -187,7 +187,7 @@ export default async function ProfilePage({ params }: Props) {
                   <ClubThumb name={c.name} src={c.cover_url} />
                   <span className="truncate text-sm font-medium text-ink">{c.name}</span>
                   {c.role === "owner" && (
-                    <span className="ml-auto rounded-full bg-ball px-2 py-0.5 text-[10px] font-bold uppercase text-ink">Owner</span>
+                    <span className="ml-auto rounded-full bg-ball px-2 py-0.5 text-[10px] font-bold uppercase text-navy">Owner</span>
                   )}
                 </Link>
               ))}

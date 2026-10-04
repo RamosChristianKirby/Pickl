@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { ChevronDown, LogOut, Settings, UserRound } from "lucide-react";
 import { Avatar } from "./Avatar";
+import { ThemeToggle } from "./ThemeToggle";
 import type { Profile } from "@/lib/types";
 import { profileHref } from "@/lib/utils";
 
@@ -68,6 +69,11 @@ export function UserMenu({ viewer }: { viewer: Profile }) {
           >
             <Settings className="h-4 w-4" /> Edit profile
           </Link>
+          <div className="px-2 py-2">
+            <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500">Theme</p>
+            <ThemeToggle className="w-full" />
+          </div>
+          <div className="my-1 h-px bg-slate-100" />
           <form action="/auth/signout" method="post">
             <button
               type="submit"

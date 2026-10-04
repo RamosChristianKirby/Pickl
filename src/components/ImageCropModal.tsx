@@ -252,7 +252,7 @@ export function ImageCropModal({
             type="button"
             onClick={onCancel}
             disabled={saving}
-            className="rounded-md p-1 text-slate-400 transition hover:text-white"
+            className="rounded-md p-1 text-[#94a3b8] transition hover:text-white"
             aria-label="Close"
           >
             <X className="h-6 w-6" />
@@ -275,11 +275,11 @@ export function ImageCropModal({
             onWheel={ready ? onWheel : undefined}
           >
             {loadError ? (
-              <div className="flex h-full items-center justify-center px-6 text-center text-sm text-slate-300">
+              <div className="flex h-full items-center justify-center px-6 text-center text-sm text-[#cbd5e1]">
                 This image couldn&apos;t be opened. Please try another JPG, PNG or WebP file.
               </div>
             ) : !ready ? (
-              <div className="flex h-full items-center justify-center text-slate-400">
+              <div className="flex h-full items-center justify-center text-[#94a3b8]">
                 <Loader2 className="h-6 w-6 animate-spin" />
               </div>
             ) : (
@@ -333,7 +333,7 @@ export function ImageCropModal({
                   }}
                   className={cn(
                     "rounded-full px-3 py-1 text-xs font-semibold transition",
-                    i === presetIndex ? "bg-white text-[#2b2d31]" : "bg-[#4e5058] text-slate-200 hover:bg-[#6d6f78]",
+                    i === presetIndex ? "bg-[#fff] text-[#2b2d31]" : "bg-[#4e5058] text-[#e2e8f0] hover:bg-[#6d6f78]",
                   )}
                 >
                   {p.label}
@@ -345,7 +345,7 @@ export function ImageCropModal({
           {/* Zoom slider (small image → big image) and rotate */}
           <div className="relative mt-5 flex items-center justify-center">
             <div className="flex w-full max-w-[220px] items-center gap-3">
-              <ImageIcon className="h-4 w-4 shrink-0 text-slate-300" />
+              <ImageIcon className="h-4 w-4 shrink-0 text-[#cbd5e1]" />
               <input
                 type="range"
                 min={1}
@@ -358,13 +358,13 @@ export function ImageCropModal({
                 className="dk-range flex-1"
                 style={{ ["--dk-fill" as string]: `${((zoom - 1) / (MAX_ZOOM - 1)) * 100}%` }}
               />
-              <ImageIcon className="h-6 w-6 shrink-0 text-slate-300" />
+              <ImageIcon className="h-6 w-6 shrink-0 text-[#cbd5e1]" />
             </div>
             <button
               type="button"
               onClick={rotate}
               disabled={!ready}
-              className="absolute right-0 rounded-md p-1.5 text-slate-300 transition hover:bg-white/10 hover:text-white"
+              className="absolute right-0 rounded-md p-1.5 text-[#cbd5e1] transition hover:bg-white/10 hover:text-white"
               aria-label="Rotate"
               title="Rotate"
             >

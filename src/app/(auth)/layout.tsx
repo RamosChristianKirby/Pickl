@@ -15,11 +15,11 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
       <div className="relative hidden overflow-hidden bg-brand-800 lg:block">
         <CourtArt />
         <div className="relative flex h-full flex-col justify-end p-12 text-white">
-          <span className="w-fit rounded-full bg-ball px-3 py-1 text-xs font-bold text-ink">The pickleball community</span>
+          <span className="w-fit rounded-full bg-ball px-3 py-1 text-xs font-bold text-navy">The pickleball community</span>
           <h2 className="mt-4 max-w-md text-4xl font-extrabold leading-tight tracking-tight">
             Find your people. Find your court. Find your game.
           </h2>
-          <p className="mt-3 max-w-md text-brand-100">
+          <p className="mt-3 max-w-md text-white/80">
             Share highlights, join local clubs and see who&apos;s checked in at the courts right now.
           </p>
         </div>

@@ -153,7 +153,7 @@ export default async function ClubPage({ params }: Props) {
                     <RatingBadge rating={m.profile!.rating} />
                   </div>
                   {m.role !== "member" && (
-                    <span className="rounded-full bg-ball px-2 py-0.5 text-[10px] font-bold uppercase text-ink">{m.role}</span>
+                    <span className="rounded-full bg-ball px-2 py-0.5 text-[10px] font-bold uppercase text-navy">{m.role}</span>
                   )}
                 </Link>
               ))}

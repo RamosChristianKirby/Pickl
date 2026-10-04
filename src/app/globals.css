@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme inline {
   --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
 }
@@ -20,6 +22,8 @@
   --color-ball: #d7f24a;
   --color-ball-dark: #b5d321;
   --color-ink: #0b1f33;
+  /* Never changes with the theme (text on the yellow ball, dark banners). */
+  --color-navy: #0b1f33;
 }
 
 @layer base {
@@ -27,19 +31,19 @@
     -webkit-tap-highlight-color: transparent;
   }
   body {
-    @apply bg-slate-100 text-slate-900 antialiased;
+    @apply bg-slate-100 text-slate-900 antialiased dark:bg-(--page);
   }
   ::selection {
-    @apply bg-ball text-ink;
+    @apply bg-ball text-navy;
   }
 }
 
 @utility card {
-    @apply rounded-2xl bg-white shadow-sm ring-1 ring-slate-200/70;
+    @apply rounded-2xl bg-white shadow-sm ring-1 ring-slate-200/70 dark:bg-(--surface) dark:shadow-none dark:ring-slate-200;
 }
 
 @utility input {
-    @apply block w-full rounded-xl border-0 bg-slate-50 px-3.5 py-2.5 text-base text-slate-900 ring-1 sm:text-sm ring-slate-200 placeholder:text-slate-500 transition focus:bg-white focus:ring-2 focus:ring-brand-500 focus:outline-none;
+    @apply block w-full rounded-xl border-0 bg-slate-50 px-3.5 py-2.5 text-base text-slate-900 ring-1 sm:text-sm ring-slate-200 placeholder:text-slate-500 transition focus:bg-white focus:ring-2 focus:ring-brand-500 focus:outline-none dark:focus:bg-(--surface);
 }
 
 @utility label {
@@ -59,7 +63,7 @@
 }
 
 @utility btn-ball {
-    @apply btn bg-ball text-ink shadow-sm hover:bg-ball-dark;
+    @apply btn bg-ball text-navy shadow-sm hover:bg-ball-dark;
 }
 
 @utility btn-ghost {
@@ -178,9 +182,9 @@
 /* ---------- Legal pages (Privacy, Terms, Cookies…) ---------- */
 @layer components {
   .legal h1 { font-size: 2rem; line-height: 1.2; font-weight: 800; letter-spacing: -0.02em; color: var(--color-ink); }
-  .legal .lead { margin-top: 0.5rem; color: #475569; }
+  .legal .lead { margin-top: 0.5rem; color: var(--color-slate-600); }
   .legal h2 { margin-top: 2.25rem; font-size: 1.2rem; font-weight: 700; color: var(--color-ink); }
-  .legal p, .legal li, .legal td, .legal th { font-size: 0.95rem; line-height: 1.7; color: #334155; }
+  .legal p, .legal li, .legal td, .legal th { font-size: 0.95rem; line-height: 1.7; color: var(--color-slate-700); }
   .legal p { margin-top: 0.75rem; }
   .legal ul, .legal ol { margin-top: 0.75rem; padding-left: 1.25rem; }
   .legal ul { list-style: disc; }
@@ -188,7 +192,93 @@
   .legal li { margin-top: 0.35rem; }
   .legal a { color: var(--color-brand-700); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
   .legal table { margin-top: 1rem; width: 100%; border-collapse: collapse; }
-  .legal th { text-align: left; font-weight: 700; color: var(--color-ink); background: #f8fafc; }
-  .legal th, .legal td { border: 1px solid #e2e8f0; padding: 0.6rem 0.75rem; vertical-align: top; }
-  .legal code { font-size: 0.85em; background: #f1f5f9; padding: 0.1rem 0.3rem; border-radius: 4px; }
+  .legal th { text-align: left; font-weight: 700; color: var(--color-ink); background: var(--color-slate-50); }
+  .legal th, .legal td { border: 1px solid var(--color-slate-200); padding: 0.6rem 0.75rem; vertical-align: top; }
+  .legal code { font-size: 0.85em; background: var(--color-slate-100); padding: 0.1rem 0.3rem; border-radius: 4px; }
 }
+
+/* ================= Dark mode =================
+   The neutral (slate) scale and the light tints are remapped, so every
+   bg-slate-*, text-ink, ring-slate-* … class flips automatically. Brand
+   500–950, ball, white text and navy stay the same in both themes. */
+:root {
+  --page: #f1f5f9;
+  --surface: #ffffff;
+  color-scheme: light;
+}
+.dark {
+  color-scheme: dark;
+  --page: #0a101c;
+  --surface: #121a2a;
+
+  --color-ink: #f1f5f9;
+  --color-slate-50: #172033;
+  --color-slate-100: #1c2638;
+  --color-slate-200: #273248;
+  --color-slate-300: #354259;
+  --color-slate-400: #66758c;
+  --color-slate-500: #97a3b6;
+  --color-slate-600: #aab5c6;
+  --color-slate-700: #c7d0dc;
+  --color-slate-800: #dde3eb;
+  --color-slate-900: #eef2f6;
+  --color-slate-950: #f8fafc;
+
+  --color-brand-50: #0f2a1e;
+  --color-brand-100: #123423;
+  --color-brand-200: #1a4a31;
+
+  --color-amber-50: #2a210f;
+  --color-amber-100: #3a2c10;
+  --color-amber-200: #5c4615;
+  --color-rose-50: #2c1219;
+  --color-rose-100: #3d1620;
+  --color-rose-200: #5e2030;
+  --color-sky-50: #0e2233;
+  --color-sky-100: #11293e;
+  --color-sky-200: #1a3d5a;
+  --color-violet-100: #251c44;
+  --color-teal-100: #0f2e2c;
+}
+
+@layer utilities {
+  /* White surfaces become the dark card colour (white text stays white). */
+  .dark .bg-white,
+  .dark .hover\:bg-white:hover,
+  .dark .focus\:bg-white:focus { background-color: var(--surface); }
+  .dark .bg-white\/95 { background-color: color-mix(in oklab, var(--surface) 95%, transparent); }
+  .dark .bg-white\/90 { background-color: color-mix(in oklab, var(--surface) 90%, transparent); }
+  .dark .bg-white\/80 { background-color: color-mix(in oklab, var(--surface) 80%, transparent); }
+  .dark .ring-white { --tw-ring-color: var(--surface); }
+
+  /* Dark-on-light text colours get lighter so they stay readable. */
+  .dark .text-brand-600,
+  .dark .text-brand-700,
+  .dark .hover\:text-brand-700:hover { color: #4ade80; }
+  .dark .text-brand-800 { color: #86efac; }
+  .dark .text-rose-500,
+  .dark .text-rose-600,
+  .dark .hover\:text-rose-600:hover { color: #fb7185; }
+  .dark .text-rose-700,
+  .dark .text-rose-800 { color: #fda4af; }
+  .dark .text-amber-700 { color: #fbbf24; }
+  .dark .text-amber-800 { color: #fcd34d; }
+  .dark .text-sky-700 { color: #7dd3fc; }
+  .dark .text-sky-800 { color: #bae6fd; }
+  .dark .text-violet-800 { color: #c4b5fd; }
+  .dark .text-teal-800 { color: #5eead4; }
+  .dark .hover\:bg-rose-50:hover { background-color: var(--color-rose-50); }
+}
+
+.dark .dk-popup em { color: #4ade80; }
+.dark .legal a { color: #4ade80; }
+
+/* Leaflet maps */
+.dark .leaflet-container { background: #0e1626; }
+.dark .leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) brightness(0.9) contrast(0.9) saturate(0.6); }
+.dark .leaflet-popup-content-wrapper,
+.dark .leaflet-popup-tip { background: var(--surface); color: var(--color-ink); box-shadow: 0 3px 14px rgb(0 0 0 / 0.5); }
+.dark .leaflet-bar a,
+.dark .leaflet-bar a:hover { background: var(--surface); color: var(--color-ink); border-bottom-color: var(--color-slate-200); }
+.dark .leaflet-control-attribution { background: rgb(18 26 42 / 0.8) !important; color: var(--color-slate-500); }
+.dark .leaflet-control-attribution a { color: #4ade80; }

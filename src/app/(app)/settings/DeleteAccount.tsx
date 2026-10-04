@@ -31,7 +31,7 @@ export function DeleteAccount() {
           <input id="confirm" name="confirm" value={confirm} onChange={(e) => setConfirm(e.target.value)} autoComplete="off" className="input" placeholder="DELETE" />
         </div>
         <FormMessage state={state} />
-        <SubmitButton className="btn w-full bg-rose-600 text-white hover:bg-rose-700 sm:w-auto" pendingText="Deleting…" disabled={confirm.trim() !== "DELETE"}>
+        <SubmitButton className="btn w-full bg-rose-600 text-white hover:bg-rose-500 sm:w-auto" pendingText="Deleting…" disabled={confirm.trim() !== "DELETE"}>
           <Trash2 className="h-4 w-4" /> Delete my account
         </SubmitButton>
       </form>
