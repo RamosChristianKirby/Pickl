@@ -129,7 +129,7 @@ export default async function ProfilePage({ params }: Props) {
             {profile.bio && <p className="mt-2 whitespace-pre-wrap text-sm text-slate-700">{profile.bio}</p>}
             <dl className="mt-4 space-y-3 text-sm">
               <div className="flex items-center justify-between">
-                <dt className="text-slate-500">Pickl Rating</dt>
+                <dt className="text-slate-500">Skill level</dt>
                 <dd>
                   <RatingBadge rating={profile.rating} showLabel />
                 </dd>

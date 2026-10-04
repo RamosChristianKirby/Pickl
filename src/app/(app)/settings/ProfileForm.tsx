@@ -144,7 +144,7 @@ export function ProfileForm({ viewer }: { viewer: Profile }) {
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <span className="label">Pickl Rating</span>
+          <span className="label">Skill level (Pickl Rating)</span>
           <div className="flex h-[42px] items-center gap-2 rounded-xl bg-slate-50 px-3 text-sm text-slate-600 ring-1 ring-slate-200">
             <RatingBadge rating={viewer.rating} />
             <span className="truncate">{ratingTier(viewer.rating)} · earned in ranked matches</span>

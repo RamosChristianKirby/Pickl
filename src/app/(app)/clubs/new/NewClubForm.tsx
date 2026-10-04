@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState, useRef, useState } from "react";
-import { Camera, Loader2 } from "lucide-react";
+import { Camera, Globe, Loader2, Lock } from "lucide-react";
 import { createClub } from "@/lib/actions/clubs";
 import { uploadImage } from "@/lib/upload";
 import { SubmitButton } from "@/components/SubmitButton";
@@ -14,6 +14,7 @@ export function NewClubForm({ userId }: { userId: string }) {
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [picked, setPicked] = useState<File | null>(null);
+  const [visibility, setVisibility] = useState<"public" | "private">("public");
   const fileInput = useRef<HTMLInputElement>(null);
 
   const onPick = (input: HTMLInputElement) => {
@@ -87,6 +88,40 @@ export function NewClubForm({ userId }: { userId: string }) {
           placeholder="Who is this club for? When and where do you play?"
         />
       </div>
+
+      <fieldset>
+        <legend className="label">Who can join?</legend>
+        <input type="hidden" name="visibility" value={visibility} />
+        <div className="grid gap-3 sm:grid-cols-2">
+          {([
+            { value: "public", icon: Globe, title: "Public", body: "Anyone can join. Posts are visible to members." },
+            { value: "private", icon: Lock, title: "Private", body: "Members join with a password you share." },
+          ] as const).map(({ value, icon: Icon, title, body }) => (
+            <button
+              key={value}
+              type="button"
+              onClick={() => setVisibility(value)}
+              aria-pressed={visibility === value}
+              className={`flex items-start gap-3 rounded-xl p-3 text-left ring-1 transition ${
+                visibility === value ? "bg-brand-50 ring-2 ring-brand-500" : "bg-white ring-slate-200 hover:bg-slate-50"
+              }`}
+            >
+              <Icon className="mt-0.5 h-5 w-5 text-brand-600" />
+              <span>
+                <span className="block font-semibold text-ink">{title}</span>
+                <span className="block text-sm text-slate-500">{body}</span>
+              </span>
+            </button>
+          ))}
+        </div>
+      </fieldset>
+      {visibility === "private" && (
+        <div>
+          <label htmlFor="password" className="label">Club password</label>
+          <input id="password" name="password" type="text" required minLength={4} maxLength={50} autoComplete="off" className="input" placeholder="Share this with people you want to let in" />
+          <p className="mt-1.5 text-xs text-slate-500">Stored securely — even we can't read it. Players enter it once to join.</p>
+        </div>
+      )}
 
       <FormMessage state={state} />
       <div className="flex justify-end">

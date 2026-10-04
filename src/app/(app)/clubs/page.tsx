@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { MapPin, Plus, Search, Users } from "lucide-react";
+import { Lock, MapPin, Plus, Search, Users } from "lucide-react";
 import { EmptyState } from "@/components/EmptyState";
 import { ClubThumb } from "@/components/LeftSidebar";
 import { JoinClubButton } from "@/components/JoinClubButton";
@@ -71,8 +71,9 @@ export default async function ClubsPage({ searchParams }: { searchParams: Promis
                   <div className="relative z-10 -mt-10 mb-2">
                     <ClubThumb name={club.name} src={null} size="lg" />
                   </div>
-                  <Link href={`/clubs/${club.slug}`} className="font-semibold text-ink hover:underline">
+                  <Link href={`/clubs/${club.slug}`} className="flex items-center gap-1.5 font-semibold text-ink hover:underline">
                     {club.name}
+                    {club.visibility === "private" && <Lock className="h-3.5 w-3.5 text-slate-400" aria-label="Private club" />}
                   </Link>
                   <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-500">
                     <span className="flex items-center gap-1">
@@ -86,7 +87,7 @@ export default async function ClubsPage({ searchParams }: { searchParams: Promis
                   </div>
                   {club.description && <p className="mt-2 line-clamp-2 text-sm text-slate-600">{club.description}</p>}
                   <div className="mt-auto pt-4">
-                    <JoinClubButton clubId={club.id} isMember={myIds.has(club.id)} isOwner={club.owner_id === viewer.id} />
+                    <JoinClubButton clubId={club.id} isMember={myIds.has(club.id)} isOwner={club.owner_id === viewer.id} isPrivate={club.visibility === "private"} />
                   </div>
                 </div>
               </div>

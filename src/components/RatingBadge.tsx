@@ -1,7 +1,7 @@
 import { Trophy } from "lucide-react";
-import { cn, ratingTier, ratingTone } from "@/lib/utils";
+import { cn, ratingTone, skillLevel } from "@/lib/utils";
 
-/** Pickl Rating pill — starts at 100 and moves ±25 with each ranked match. */
+/** Skill-level pill (2.0, 3.5 …) from the player's Pickl Rating points (start 100, ±25 per ranked match). */
 export function RatingBadge({
   rating,
   showLabel = false,
@@ -12,9 +12,10 @@ export function RatingBadge({
   className?: string;
 }) {
   const value = rating ?? 100;
+  const lvl = skillLevel(value);
   return (
     <span
-      title={`Pickl Rating: ${value} (${ratingTier(value)})`}
+      title={`Level ${lvl.level} · ${lvl.name} · ${value} pts`}
       className={cn(
         "inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-semibold tabular-nums ring-1",
         ratingTone(value),
@@ -22,8 +23,12 @@ export function RatingBadge({
       )}
     >
       <Trophy className="h-3 w-3" aria-hidden />
-      {value}
-      {showLabel && <span className="font-medium opacity-80">· {ratingTier(value)}</span>}
+      {lvl.level}
+      {showLabel && (
+        <span className="font-medium opacity-80">
+          · {lvl.name} · {value} pts
+        </span>
+      )}
     </span>
   );
 }

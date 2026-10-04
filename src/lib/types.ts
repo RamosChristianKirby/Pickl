@@ -45,6 +45,7 @@ export type Club = {
   cover_url: string | null;
   owner_id: string;
   created_at: string;
+  visibility: "public" | "private";
 };
 
 export type Court = {

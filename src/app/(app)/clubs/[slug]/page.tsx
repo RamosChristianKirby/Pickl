@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { CalendarDays, Lock, MapPin, Users } from "lucide-react";
+import { CalendarDays, Globe, Lock, MapPin, Users } from "lucide-react";
 import { Avatar } from "@/components/Avatar";
 import { RatingBadge } from "@/components/RatingBadge";
 import { JoinClubButton } from "@/components/JoinClubButton";
@@ -79,6 +79,10 @@ export default async function ClubPage({ params }: Props) {
             <h1 className="text-2xl font-bold tracking-tight text-ink sm:text-3xl">{club.name}</h1>
             <div className="mt-1.5 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-slate-500">
               <span className="flex items-center gap-1.5">
+                {club.visibility === "private" ? <Lock className="h-4 w-4" /> : <Globe className="h-4 w-4" />}
+                {club.visibility === "private" ? "Private club" : "Public club"}
+              </span>
+              <span className="flex items-center gap-1.5">
                 <Users className="h-4 w-4" /> {memberCount ?? 0} members
               </span>
               {club.location && (
@@ -96,27 +100,35 @@ export default async function ClubPage({ params }: Props) {
               ))}
             </div>
           </div>
-          <JoinClubButton clubId={club.id} isMember={isMember} isOwner={isOwner} />
+          <JoinClubButton clubId={club.id} isMember={isMember} isOwner={isOwner} isPrivate={club.visibility === "private"} />
         </div>
       </section>
 
       <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_300px]">
         <div className="order-2 space-y-4 lg:order-1">
           {isMember || isOwner ? (
-            <PostComposer viewer={viewer} clubId={club.id} placeholder={`Share something with ${club.name}…`} />
+            <>
+              <PostComposer viewer={viewer} clubId={club.id} placeholder={`Share something with ${club.name}…`} />
+              <RealtimeFeedBanner viewerId={viewer.id} clubId={club.id} />
+              <PostList
+                posts={posts}
+                viewer={viewer}
+                hideClub
+                emptyTitle="No posts in this club yet"
+                emptyDescription="Kick things off — share your next open play time or a recap from the last session."
+              />
+            </>
           ) : (
-            <div className="card flex items-center gap-3 p-4 text-sm text-slate-600">
-              <Lock className="h-4 w-4 text-slate-400" /> Join this club to post in its feed.
+            <div className="card flex flex-col items-center gap-2 p-8 text-center">
+              <span className="flex h-12 w-12 items-center justify-center rounded-full bg-brand-50">
+                <Lock className="h-5 w-5 text-brand-600" />
+              </span>
+              <p className="font-semibold text-ink">Club posts are for members only</p>
+              <p className="text-sm text-slate-500">
+                {club.visibility === "private" ? "Ask a member for the club password, then join to see and share posts." : "Join this club to see and share posts."}
+              </p>
             </div>
           )}
-          <RealtimeFeedBanner viewerId={viewer.id} clubId={club.id} />
-          <PostList
-            posts={posts}
-            viewer={viewer}
-            hideClub
-            emptyTitle="No posts in this club yet"
-            emptyDescription="Kick things off — share your next open play time or a recap from the last session."
-          />
         </div>
 
         <div className="order-1 space-y-4 lg:order-2">

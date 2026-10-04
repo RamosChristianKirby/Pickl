@@ -60,24 +60,46 @@ export function slugify(input: string) {
     .slice(0, 50);
 }
 
-/** Pickl Rating: everyone starts at 100; ranked matches move it ±25. */
+/**
+ * Pickl Rating points (start at 100, ±25 per ranked match in the app) map onto the
+ * standard pickleball skill levels 1.0–5.5+ (pickleball.com skill-level guide).
+ * Every 100 points is half a level. Keep in sync with the mobile app (src/lib/utils.ts).
+ */
 export const STARTING_RATING = 100;
 
+export const SKILL_LEVELS = [
+  { min: 0, level: "1.0", name: "Absolute beginner" },
+  { min: 50, level: "1.5", name: "New player" },
+  { min: 100, level: "2.0", name: "Beginner" },
+  { min: 200, level: "2.5", name: "Beginner-intermediate" },
+  { min: 300, level: "3.0", name: "Intermediate" },
+  { min: 400, level: "3.5", name: "Intermediate-advanced" },
+  { min: 500, level: "4.0", name: "Advanced" },
+  { min: 600, level: "4.5", name: "High advanced" },
+  { min: 700, level: "5.0", name: "Expert" },
+  { min: 800, level: "5.5+", name: "Professional" },
+] as const;
+
+export function skillLevel(rating: number | null | undefined) {
+  const r = Math.max(0, rating ?? STARTING_RATING);
+  let index = 0;
+  SKILL_LEVELS.forEach((l, i) => {
+    if (r >= l.min) index = i;
+  });
+  return { ...SKILL_LEVELS[index], index };
+}
+
+/** e.g. "Beginner" */
 export function ratingTier(rating: number | null | undefined) {
-  const r = rating ?? STARTING_RATING;
-  if (r < 125) return "Rookie";
-  if (r < 200) return "Contender";
-  if (r < 300) return "Competitor";
-  if (r < 450) return "Advanced";
-  return "Elite";
+  return skillLevel(rating).name;
 }
 
 export function ratingTone(rating: number | null | undefined) {
-  const r = rating ?? STARTING_RATING;
-  if (r < 125) return "bg-slate-100 text-slate-700 ring-slate-200";
-  if (r < 200) return "bg-sky-50 text-sky-700 ring-sky-200";
-  if (r < 300) return "bg-brand-50 text-brand-700 ring-brand-200";
-  if (r < 450) return "bg-amber-50 text-amber-700 ring-amber-200";
+  const { index } = skillLevel(rating);
+  if (index <= 1) return "bg-slate-100 text-slate-700 ring-slate-200";
+  if (index <= 3) return "bg-sky-50 text-sky-700 ring-sky-200";
+  if (index <= 5) return "bg-brand-50 text-brand-700 ring-brand-200";
+  if (index <= 7) return "bg-amber-50 text-amber-700 ring-amber-200";
   return "bg-rose-50 text-rose-700 ring-rose-200";
 }
 

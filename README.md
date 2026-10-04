@@ -10,7 +10,7 @@ A Facebook-style community app for pickleball players, built with **Next.js 15 (
   "For you" is a ranked feed (`src/lib/feed.ts`): it scores posts by likes/comments, how close you are to the author
   (follows, clubs, past likes and comments) and freshness, so brand-new accounts still see popular posts from everyone.
 - **Follow system**: follow players, with player suggestions near your skill level.
-- **Clubs**: create a club (with cover photo), join or leave, member roster, and a feed only club members can post to.
+- **Clubs**: create a public or private (password-protected) club with a cover photo, join or leave, member roster, and a members-only club feed.
 - **Courts directory**: browse and search courts, filter indoor/outdoor, add new courts, **check in** to show you're playing now, and see the live "On court now" list.
 - **Notifications**: bell with live alerts for likes, comments, new followers and club joins.
 - **Live feed**: a "new posts" button appears as soon as someone posts — no refresh needed.
@@ -25,7 +25,7 @@ A Facebook-style community app for pickleball players, built with **Next.js 15 (
 1. Go to <https://supabase.com>, create a free project, and wait for it to finish setting up.
 2. Open **SQL Editor → New query**, paste in all of [`supabase/setup.sql`](supabase/setup.sql), and click **Run**.
    This creates every table, security policy, trigger, the public `media` storage bucket and realtime settings.
-   It's safe to run again — do so whenever you pull updates. (`schema.sql` + `migrations/` contain the same SQL split into steps; `005_ranked_matches.sql` adds ratings and ranked matches.)
+   It's safe to run again — do so whenever you pull updates. (`schema.sql` + `migrations/` contain the same SQL split into steps; `005_ranked_matches.sql` adds ratings and ranked matches; `006_private_clubs_matches.sql` adds private clubs/matches and members-only club posts.)
 3. *(Optional)* Run [`supabase/seed.sql`](supabase/seed.sql) to add 3 placeholder courts.
 4. Go to **Authentication → URL Configuration** and set:
    - **Site URL**: `http://localhost:3000`
