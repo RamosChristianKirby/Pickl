@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CalendarDays, Lock, MapPin, Users } from "lucide-react";
 import { Avatar } from "@/components/Avatar";
-import { SkillBadge } from "@/components/SkillBadge";
+import { RatingBadge } from "@/components/RatingBadge";
 import { JoinClubButton } from "@/components/JoinClubButton";
 import { PostComposer } from "@/components/PostComposer";
 import { PostList } from "@/components/PostList";
@@ -138,7 +138,7 @@ export default async function ClubPage({ params }: Props) {
                   <Avatar src={m.profile!.avatar_url} name={m.profile!.full_name || m.profile!.username} size="sm" />
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-sm font-medium text-ink">{m.profile!.full_name || m.profile!.username}</p>
-                    <SkillBadge level={m.profile!.skill_level} />
+                    <RatingBadge rating={m.profile!.rating} />
                   </div>
                   {m.role !== "member" && (
                     <span className="rounded-full bg-ball px-2 py-0.5 text-[10px] font-bold uppercase text-ink">{m.role}</span>

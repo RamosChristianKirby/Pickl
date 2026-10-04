@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState, useTransition } from "react";
 import { Heart, MessageCircle, MoreHorizontal, Share2, Trash2, Users } from "lucide-react";
 import { Avatar } from "./Avatar";
-import { SkillBadge } from "./SkillBadge";
+import { RatingBadge } from "./RatingBadge";
 import { Comments } from "./Comments";
 import { deletePost, toggleLike } from "@/lib/actions/social";
 import { cn, timeAgo, profileHref } from "@/lib/utils";
@@ -75,7 +75,7 @@ export function PostCard({
             <Link href={profileHref(post.author.username)} className="font-semibold text-ink hover:underline">
               {name}
             </Link>
-            <SkillBadge level={post.author.skill_level} />
+            <RatingBadge rating={post.author.rating} />
             {post.club && !hideClub && (
               <span className="flex items-center gap-1 text-sm text-slate-500">
                 <span>in</span>

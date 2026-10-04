@@ -2,14 +2,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { MapPin, Search, UserRound } from "lucide-react";
 import { Avatar } from "@/components/Avatar";
-import { SkillBadge } from "@/components/SkillBadge";
+import { RatingBadge } from "@/components/RatingBadge";
 import { FollowButton } from "@/components/FollowButton";
 import { EmptyState } from "@/components/EmptyState";
 import { createClient } from "@/lib/supabase/server";
 import { getFollowingIds, requireViewer } from "@/lib/data";
 import { FEATURES } from "@/lib/features";
 import { notFound } from "next/navigation";
-import { PLAY_STYLE_LABEL, SKILL_LEVELS, sanitizeSearch, profileHref } from "@/lib/utils";
+import { PLAY_STYLE_LABEL, sanitizeSearch, profileHref } from "@/lib/utils";
 import type { Profile } from "@/lib/types";
 
 export const metadata: Metadata = { title: "Players" };
@@ -27,8 +27,8 @@ export default async function PlayersPage({
 
   let query = supabase.from("profiles").select("*").neq("id", viewer.id).order("created_at", { ascending: false }).limit(60);
   if (q) query = query.or(`full_name.ilike.%${q}%,username.ilike.%${q}%,location.ilike.%${q}%`);
-  if (sp.min) query = query.gte("skill_level", Number(sp.min));
-  if (sp.max) query = query.lte("skill_level", Number(sp.max));
+  if (sp.min && Number.isFinite(Number(sp.min))) query = query.gte("rating", Number(sp.min));
+  if (sp.max && Number.isFinite(Number(sp.max))) query = query.lte("rating", Number(sp.max));
   if (sp.style && sp.style in PLAY_STYLE_LABEL) query = query.eq("play_style", sp.style);
 
   const [{ data }, followingIds] = await Promise.all([query, getFollowingIds(viewer.id)]);
@@ -45,22 +45,8 @@ export default async function PlayersPage({
             <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
             <input name="q" defaultValue={sp.q ?? ""} placeholder="Name, username or location" className="input pl-9" />
           </div>
-          <select name="min" defaultValue={sp.min ?? ""} className="input sm:w-32" aria-label="Minimum skill">
-            <option value="">Min level</option>
-            {SKILL_LEVELS.map((l) => (
-              <option key={l} value={l.toFixed(1)}>
-                {l.toFixed(1)}+
-              </option>
-            ))}
-          </select>
-          <select name="max" defaultValue={sp.max ?? ""} className="input sm:w-32" aria-label="Maximum skill">
-            <option value="">Max level</option>
-            {SKILL_LEVELS.map((l) => (
-              <option key={l} value={l.toFixed(1)}>
-                ≤ {l.toFixed(1)}
-              </option>
-            ))}
-          </select>
+          <input name="min" type="number" min={0} step={25} defaultValue={sp.min ?? ""} placeholder="Min rating" className="input sm:w-32" aria-label="Minimum Pickl Rating" />
+          <input name="max" type="number" min={0} step={25} defaultValue={sp.max ?? ""} placeholder="Max rating" className="input sm:w-32" aria-label="Maximum Pickl Rating" />
           <select name="style" defaultValue={sp.style ?? ""} className="input sm:w-40" aria-label="Format">
             <option value="">Any format</option>
             {Object.entries(PLAY_STYLE_LABEL).map(([k, v]) => (
@@ -74,7 +60,7 @@ export default async function PlayersPage({
       </div>
 
       {players.length === 0 ? (
-        <EmptyState icon={UserRound} title="No players found" description="Try widening your skill range or clearing the search." />
+        <EmptyState icon={UserRound} title="No players found" description="Try widening the rating range or clearing the search." />
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 2xl:grid-cols-3">
           {players.map((p) => {
@@ -91,7 +77,7 @@ export default async function PlayersPage({
                     </Link>
                     <p className="truncate text-xs text-slate-500">@{p.username}</p>
                     <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
-                      <SkillBadge level={p.skill_level} showLabel />
+                      <RatingBadge rating={p.rating} showLabel />
                       {p.play_style && (
                         <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[11px] font-medium text-slate-600">
                           {PLAY_STYLE_LABEL[p.play_style]}

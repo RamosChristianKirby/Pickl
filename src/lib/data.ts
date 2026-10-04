@@ -4,7 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import type { Post, Profile, ProfileLite } from "@/lib/types";
 import { safeDecode } from "@/lib/utils";
 
-export const PROFILE_LITE = "id, username, full_name, avatar_url, skill_level";
+export const PROFILE_LITE = "id, username, full_name, avatar_url, rating";
 
 export const POST_SELECT = `
   id, content, image_url, created_at, club_id,

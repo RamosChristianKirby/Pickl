@@ -8,7 +8,8 @@ import { SubmitButton } from "@/components/SubmitButton";
 import { FormMessage } from "@/components/FormMessage";
 import { updateProfile } from "@/lib/actions/profile";
 import { uploadImage } from "@/lib/upload";
-import { SKILL_LEVELS, USERNAME_PATTERN, USERNAME_RULE, skillLabel } from "@/lib/utils";
+import { USERNAME_PATTERN, USERNAME_RULE, ratingTier } from "@/lib/utils";
+import { RatingBadge } from "@/components/RatingBadge";
 import type { Profile } from "@/lib/types";
 
 export function ProfileForm({ viewer }: { viewer: Profile }) {
@@ -44,8 +45,6 @@ export function ProfileForm({ viewer }: { viewer: Profile }) {
       setUploading(null);
     }
   };
-
-  const currentSkill = viewer.skill_level == null ? "" : Number(viewer.skill_level).toFixed(1);
 
   return (
     <form action={action} className="space-y-6">
@@ -145,15 +144,11 @@ export function ProfileForm({ viewer }: { viewer: Profile }) {
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <label htmlFor="skill_level" className="label">Skill rating</label>
-          <select id="skill_level" name="skill_level" defaultValue={currentSkill} className="input">
-            <option value="">Not rated</option>
-            {SKILL_LEVELS.map((lvl) => (
-              <option key={lvl} value={lvl.toFixed(1)}>
-                {lvl.toFixed(1)} — {skillLabel(lvl)}
-              </option>
-            ))}
-          </select>
+          <span className="label">Pickl Rating</span>
+          <div className="flex h-[42px] items-center gap-2 rounded-xl bg-slate-50 px-3 text-sm text-slate-600 ring-1 ring-slate-200">
+            <RatingBadge rating={viewer.rating} />
+            <span className="truncate">{ratingTier(viewer.rating)} · earned in ranked matches</span>
+          </div>
         </div>
         <div>
           <label htmlFor="play_style" className="label">Preferred format</label>

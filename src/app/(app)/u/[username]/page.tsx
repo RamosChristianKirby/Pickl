@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CalendarDays, MapPin, Pencil, Swords, Users } from "lucide-react";
 import { Avatar } from "@/components/Avatar";
-import { SkillBadge } from "@/components/SkillBadge";
+import { RatingBadge } from "@/components/RatingBadge";
 import { FollowButton } from "@/components/FollowButton";
 import { ProfilePhotoButton } from "@/components/ProfilePhotoButton";
 import { PostComposer } from "@/components/PostComposer";
@@ -43,6 +43,21 @@ export default async function ProfilePage({ params }: Props) {
       getMyClubs(profile.id),
       supabase.from("posts").select("id", { count: "exact", head: true }).eq("author_id", profile.id),
     ]);
+
+  // Ranked matches played in the mobile app (only completed ones count).
+  const { data: matchRows } = await supabase
+    .from("match_players")
+    .select("team, match:matches!inner ( status, winning_team )")
+    .eq("user_id", profile.id)
+    .eq("match.status", "completed")
+    .limit(500);
+  const record = { wins: 0, losses: 0 };
+  for (const row of (matchRows ?? []) as unknown as { team: number; match: { winning_team: number | null } | { winning_team: number | null }[] }[]) {
+    const m = Array.isArray(row.match) ? row.match[0] : row.match;
+    if (!m?.winning_team) continue;
+    if (m.winning_team === row.team) record.wins += 1;
+    else record.losses += 1;
+  }
 
   const posts = await hydratePosts(postRows, viewer.id);
   const name = profile.full_name || profile.username;
@@ -114,9 +129,15 @@ export default async function ProfilePage({ params }: Props) {
             {profile.bio && <p className="mt-2 whitespace-pre-wrap text-sm text-slate-700">{profile.bio}</p>}
             <dl className="mt-4 space-y-3 text-sm">
               <div className="flex items-center justify-between">
-                <dt className="text-slate-500">Skill rating</dt>
+                <dt className="text-slate-500">Pickl Rating</dt>
                 <dd>
-                  <SkillBadge level={profile.skill_level} showLabel />
+                  <RatingBadge rating={profile.rating} showLabel />
+                </dd>
+              </div>
+              <div className="flex items-center justify-between">
+                <dt className="text-slate-500">Ranked record</dt>
+                <dd className="font-medium tabular-nums text-ink">
+                  {record.wins}W – {record.losses}L
                 </dd>
               </div>
               {profile.play_style && (
@@ -148,7 +169,7 @@ export default async function ProfilePage({ params }: Props) {
                 <dd className="font-medium text-ink">{joined}</dd>
               </div>
             </dl>
-            {isMe && !profile.bio && !profile.skill_level && (
+            {isMe && !profile.bio && !profile.play_style && (
               <Link href="/settings" className="btn-ball mt-4 w-full">
                 Complete your player card
               </Link>

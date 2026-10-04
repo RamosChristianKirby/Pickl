@@ -3,7 +3,7 @@ import type { AppNotification, ProfileLite } from "@/lib/types";
 
 export const NOTIFICATION_SELECT = `
   id, type, created_at, read_at,
-  actor:profiles!notifications_actor_id_fkey ( id, username, full_name, avatar_url, skill_level ),
+  actor:profiles!notifications_actor_id_fkey ( id, username, full_name, avatar_url, rating ),
   post:posts ( id, content ),
   club:clubs ( slug, name )
 `;
@@ -35,6 +35,10 @@ export function describeNotification(n: AppNotification): { text: string; href: 
       return { text: "started following you.", href: n.actor ? profileHref(n.actor.username) : "/feed" };
     case "club_join":
       return { text: `joined your club ${n.club?.name ?? ""}.`, href: n.club ? `/clubs/${n.club.slug}` : "/clubs" };
+    case "match_invite":
+      return { text: "invited you to a ranked match. Open the Pickl app to accept.", href: n.actor ? profileHref(n.actor.username) : "/feed" };
+    case "match_result":
+      return { text: "confirmed your ranked match result. Your Pickl Rating was updated.", href: "/feed" };
     default:
       return { text: "did something.", href: "/feed" };
   }

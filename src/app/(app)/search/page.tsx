@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { MapPin, Search, Users } from "lucide-react";
 import { Avatar } from "@/components/Avatar";
-import { SkillBadge } from "@/components/SkillBadge";
+import { RatingBadge } from "@/components/RatingBadge";
 import { ClubThumb } from "@/components/LeftSidebar";
 import { createClient } from "@/lib/supabase/server";
 import { PROFILE_LITE, requireViewer } from "@/lib/data";
@@ -55,7 +55,7 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
                 <p className="truncate text-sm font-medium text-ink">{p.full_name || p.username}</p>
                 <p className="truncate text-xs text-slate-500">@{p.username}</p>
               </div>
-              <SkillBadge level={p.skill_level} />
+              <RatingBadge rating={p.rating} />
             </Link>
           ))}
         </section>

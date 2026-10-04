@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { MapPin } from "lucide-react";
 import { Avatar } from "./Avatar";
-import { SkillBadge } from "./SkillBadge";
+import { RatingBadge } from "./RatingBadge";
 import { FollowButton } from "./FollowButton";
 import { createClient } from "@/lib/supabase/server";
 import { PROFILE_LITE, getFollowingIds } from "@/lib/data";
@@ -14,17 +14,15 @@ export async function RightSidebar({ viewer }: { viewer: Profile }) {
   const following = await getFollowingIds(viewer.id);
   const exclude = [viewer.id, ...following];
 
-  // Suggest players close to the viewer's level when we know it.
+  // Suggest players with a Pickl Rating close to the viewer's.
   let suggestQuery = supabase
     .from("profiles")
     .select(PROFILE_LITE)
     .not("id", "in", `(${exclude.join(",")})`)
     .order("created_at", { ascending: false })
     .limit(5);
-  if (viewer.skill_level != null) {
-    suggestQuery = suggestQuery
-      .gte("skill_level", Number(viewer.skill_level) - 0.5)
-      .lte("skill_level", Number(viewer.skill_level) + 0.5);
+  if (viewer.rating != null) {
+    suggestQuery = suggestQuery.gte("rating", viewer.rating - 50).lte("rating", viewer.rating + 50);
   }
   let { data: suggestions } = await suggestQuery;
   if (!suggestions || suggestions.length === 0) {
@@ -108,7 +106,7 @@ export async function RightSidebar({ viewer }: { viewer: Profile }) {
                 <Link href={profileHref(p.username)} className="block truncate text-sm font-medium text-ink hover:underline">
                   {p.full_name || p.username}
                 </Link>
-                <SkillBadge level={p.skill_level} />
+                <RatingBadge rating={p.rating} />
               </div>
               <FollowButton targetId={p.id} initiallyFollowing={false} size="sm" />
             </div>

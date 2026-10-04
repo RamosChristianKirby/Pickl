@@ -27,10 +27,6 @@ export async function updateProfile(_prev: ActionState, formData: FormData): Pro
     .maybeSingle();
   if (clash) return { error: "That username is already taken." };
 
-  const skillRaw = String(formData.get("skill_level") ?? "");
-  const skill = skillRaw ? Number(skillRaw) : null;
-  if (skill != null && (Number.isNaN(skill) || skill < 1 || skill > 6)) return { error: "Pick a valid skill level." };
-
   const style = String(formData.get("play_style") ?? "");
   const avatarUrl = String(formData.get("avatar_url") ?? "") || null;
   const coverUrl = String(formData.get("cover_url") ?? "") || null;
@@ -49,7 +45,6 @@ export async function updateProfile(_prev: ActionState, formData: FormData): Pro
       bio: String(formData.get("bio") ?? "").trim().slice(0, 300),
       location: String(formData.get("location") ?? "").trim().slice(0, 80),
       paddle: String(formData.get("paddle") ?? "").trim().slice(0, 80),
-      skill_level: skill,
       play_style: STYLES.includes(style) ? style : null,
       avatar_url: avatarUrl,
       cover_url: coverUrl,

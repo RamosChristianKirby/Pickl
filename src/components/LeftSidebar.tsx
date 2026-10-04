@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Plus } from "lucide-react";
 import { Avatar } from "./Avatar";
 import { SideNav } from "./NavTabs";
-import { SkillBadge } from "./SkillBadge";
+import { RatingBadge } from "./RatingBadge";
 import { getMyClubs } from "@/lib/data";
 import type { Profile } from "@/lib/types";
 import { profileHref } from "@/lib/utils";
@@ -20,7 +20,7 @@ export async function LeftSidebar({ viewer }: { viewer: Profile }) {
         <Avatar src={viewer.avatar_url} name={name} size="sm" />
         <div className="min-w-0">
           <p className="truncate text-sm font-semibold text-ink">{name}</p>
-          <SkillBadge level={viewer.skill_level} showLabel />
+          <RatingBadge rating={viewer.rating} showLabel />
         </div>
       </Link>
 

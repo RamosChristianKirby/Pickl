@@ -5,7 +5,7 @@ import { Clock, Info, Lightbulb, MapPin, Navigation, Sun, Warehouse } from "luci
 import { CourtsMap } from "@/components/CourtsMap";
 import { CourtLocationForm } from "@/components/CourtLocationForm";
 import { Avatar } from "@/components/Avatar";
-import { SkillBadge } from "@/components/SkillBadge";
+import { RatingBadge } from "@/components/RatingBadge";
 import { CheckInButton } from "@/components/CheckInButton";
 import { createClient } from "@/lib/supabase/server";
 import { PROFILE_LITE, requireViewer } from "@/lib/data";
@@ -204,7 +204,7 @@ function CheckInItem({ c }: { c: CheckInRow }) {
           <Link href={profileHref(c.player.username)} className="truncate text-sm font-medium text-ink hover:underline">
             {name}
           </Link>
-          <SkillBadge level={c.player.skill_level} />
+          <RatingBadge rating={c.player.rating} />
         </div>
         {c.note && <p className="truncate text-sm text-slate-600">“{c.note}”</p>}
       </div>

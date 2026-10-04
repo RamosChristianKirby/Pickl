@@ -7,14 +7,14 @@ export type Profile = {
   avatar_url: string | null;
   cover_url: string | null;
   bio: string;
-  skill_level: number | null;
+  rating: number;
   play_style: PlayStyle | null;
   location: string;
   paddle: string;
   created_at: string;
 };
 
-export type ProfileLite = Pick<Profile, "id" | "username" | "full_name" | "avatar_url" | "skill_level">;
+export type ProfileLite = Pick<Profile, "id" | "username" | "full_name" | "avatar_url" | "rating">;
 
 export type Post = {
   id: string;
@@ -65,7 +65,7 @@ export type Court = {
 
 export type ActionState = { error?: string; success?: string } | undefined;
 
-export type NotificationType = "like" | "comment" | "follow" | "club_join";
+export type NotificationType = "like" | "comment" | "follow" | "club_join" | "match_invite" | "match_result";
 
 export type AppNotification = {
   id: string;

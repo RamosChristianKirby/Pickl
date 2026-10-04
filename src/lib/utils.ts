@@ -60,25 +60,24 @@ export function slugify(input: string) {
     .slice(0, 50);
 }
 
-export const SKILL_LEVELS = [2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0, 5.5] as const;
+/** Pickl Rating: everyone starts at 100; ranked matches move it ±25. */
+export const STARTING_RATING = 100;
 
-export function skillLabel(level: number | null | undefined) {
-  if (level == null) return "Unrated";
-  if (level < 3) return "Beginner";
-  if (level < 3.5) return "Advanced Beginner";
-  if (level < 4) return "Intermediate";
-  if (level < 4.5) return "Advanced";
-  if (level < 5) return "Expert";
-  return "Pro";
+export function ratingTier(rating: number | null | undefined) {
+  const r = rating ?? STARTING_RATING;
+  if (r < 125) return "Rookie";
+  if (r < 200) return "Contender";
+  if (r < 300) return "Competitor";
+  if (r < 450) return "Advanced";
+  return "Elite";
 }
 
-export function skillTone(level: number | null | undefined) {
-  if (level == null) return "bg-slate-100 text-slate-600 ring-slate-200";
-  if (level < 3) return "bg-sky-50 text-sky-700 ring-sky-200";
-  if (level < 3.5) return "bg-teal-50 text-teal-700 ring-teal-200";
-  if (level < 4) return "bg-brand-50 text-brand-700 ring-brand-200";
-  if (level < 4.5) return "bg-amber-50 text-amber-700 ring-amber-200";
-  if (level < 5) return "bg-orange-50 text-orange-700 ring-orange-200";
+export function ratingTone(rating: number | null | undefined) {
+  const r = rating ?? STARTING_RATING;
+  if (r < 125) return "bg-slate-100 text-slate-700 ring-slate-200";
+  if (r < 200) return "bg-sky-50 text-sky-700 ring-sky-200";
+  if (r < 300) return "bg-brand-50 text-brand-700 ring-brand-200";
+  if (r < 450) return "bg-amber-50 text-amber-700 ring-amber-200";
   return "bg-rose-50 text-rose-700 ring-rose-200";
 }
 

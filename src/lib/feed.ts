@@ -10,7 +10,7 @@ import type { Post, Profile } from "@/lib/types";
  * 2. Score each post:  quality × affinity × freshness
  *    - quality:   likes and comments (comments count double), on a log scale
  *    - affinity:  you follow the author, you've liked/commented on their posts before,
- *                 it's from one of your clubs, the author plays at a similar level
+ *                 it's from one of your clubs, the author has a similar Pickl Rating
  *    - freshness: older posts fade out gradually (time decay)
  * 3. Mix it up: repeated posts from the same author are pushed down, so one person
  *    can't take over the feed.
@@ -30,7 +30,7 @@ type Row = {
   created_at: string;
   image_url: string | null;
   club_id: string | null;
-  author: { id: string; skill_level: number | null } | { id: string; skill_level: number | null }[] | null;
+  author: { id: string; rating: number | null } | { id: string; rating: number | null }[] | null;
   likes: { count: number }[];
   comments: { count: number }[];
 };
@@ -70,8 +70,8 @@ export function scorePost(row: Row, s: Signals): number {
   if (row.club_id && s.myClubs.has(row.club_id)) affinity *= 2;
   const n = s.interactions.get(author.id) ?? 0;
   if (n > 0) affinity *= 1 + Math.min(n, 10) * 0.15; // up to 2.5×
-  if (s.viewer.skill_level != null && author.skill_level != null) {
-    if (Math.abs(Number(s.viewer.skill_level) - Number(author.skill_level)) <= 0.5) affinity *= 1.2;
+  if (s.viewer.rating != null && author.rating != null) {
+    if (Math.abs(s.viewer.rating - author.rating) <= 50) affinity *= 1.2; // similar Pickl Rating
   }
 
   const ageHours = Math.max(0, (s.now - new Date(row.created_at).getTime()) / 3_600_000);

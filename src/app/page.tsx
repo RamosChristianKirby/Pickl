@@ -38,7 +38,7 @@ const FEATURES = [
 ];
 
 const STEPS = [
-  { title: "Create your player profile", body: "Add your photo, skill rating, preferred format and home courts." },
+  { title: "Create your player profile", body: "Add your photo, preferred format and home courts. Everyone starts with a Pickl Rating of 100." },
   { title: "Find your people", body: "Follow players, join local clubs and see what your community is posting." },
   { title: "Get on court", body: "Check in at a court so others know you're there, and share how it went." },
 ];

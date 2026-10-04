@@ -5,7 +5,7 @@ A Facebook-style community app for pickleball players, built with **Next.js 15 (
 ## Features
 
 - **Accounts**: email/password sign-up and login, session handled by Supabase SSR cookies, protected routes via middleware.
-- **Player profiles**: avatar, cover photo, bio, skill rating (2.0–5.5), preferred format, paddle, location, follower counts.
+- **Player profiles**: avatar, cover photo, bio, **Pickl Rating** (starts at 100, +25 / −25 per ranked match), ranked record, preferred format, paddle, location, follower counts.
 - **News feed**: text + photo posts, likes, comments, delete your own posts, and "For you" / "Following" / "Latest" tabs.
   "For you" is a ranked feed (`src/lib/feed.ts`): it scores posts by likes/comments, how close you are to the author
   (follows, clubs, past likes and comments) and freshness, so brand-new accounts still see popular posts from everyone.
@@ -15,7 +15,8 @@ A Facebook-style community app for pickleball players, built with **Next.js 15 (
 - **Notifications**: bell with live alerts for likes, comments, new followers and club joins.
 - **Live feed**: a "new posts" button appears as soon as someone posts — no refresh needed.
 - **Court map**: OpenStreetMap view of all courts (with live check-in counts), plus a pin picker when adding a court.
-- **Search** across players, clubs and courts, plus a **Players** page with skill and format filters.
+- **Search** across players, clubs and courts, plus a **Players** page with rating and format filters.
+- **Ranked QR matches** (mobile app, `../pickl-mobile`): create a match, the opponent scans its QR code, doubles partners are added by @username, and when both teams agree on the result winners get +25 and losers −25.
 - Responsive three-column desktop layout, plus a bottom tab bar on mobile.
 - Row Level Security on every table, so users can only change their own data.
 
@@ -24,7 +25,7 @@ A Facebook-style community app for pickleball players, built with **Next.js 15 (
 1. Go to <https://supabase.com>, create a free project, and wait for it to finish setting up.
 2. Open **SQL Editor → New query**, paste in all of [`supabase/setup.sql`](supabase/setup.sql), and click **Run**.
    This creates every table, security policy, trigger, the public `media` storage bucket and realtime settings.
-   It's safe to run again — do so whenever you pull updates. (`schema.sql` + `migrations/` contain the same SQL split into steps.)
+   It's safe to run again — do so whenever you pull updates. (`schema.sql` + `migrations/` contain the same SQL split into steps; `005_ranked_matches.sql` adds ratings and ranked matches.)
 3. *(Optional)* Run [`supabase/seed.sql`](supabase/seed.sql) to add 3 placeholder courts.
 4. Go to **Authentication → URL Configuration** and set:
    - **Site URL**: `http://localhost:3000`
