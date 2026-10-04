@@ -1,0 +1,152 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+}
+
+@theme {
+  --color-brand-50: #effdf4;
+  --color-brand-100: #d9fbe6;
+  --color-brand-200: #b4f4cd;
+  --color-brand-300: #7deaa9;
+  --color-brand-400: #3fd67f;
+  --color-brand-500: #17bc62;
+  --color-brand-600: #0c9a4f;
+  --color-brand-700: #0d7a42;
+  --color-brand-800: #106038;
+  --color-brand-900: #0f4f30;
+  --color-brand-950: #032c19;
+
+  --color-ball: #d7f24a;
+  --color-ball-dark: #b5d321;
+  --color-ink: #0b1f33;
+}
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-slate-100 text-slate-900 antialiased;
+  }
+  ::selection {
+    @apply bg-ball text-ink;
+  }
+}
+
+@utility card {
+    @apply rounded-2xl bg-white shadow-sm ring-1 ring-slate-200/70;
+}
+
+@utility input {
+    @apply block w-full rounded-xl border-0 bg-slate-50 px-3.5 py-2.5 text-base text-slate-900 ring-1 sm:text-sm ring-slate-200 placeholder:text-slate-400 transition focus:bg-white focus:ring-2 focus:ring-brand-500 focus:outline-none;
+}
+
+@utility label {
+    @apply mb-1.5 block text-sm font-medium text-slate-700;
+}
+
+@utility btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500 disabled:cursor-not-allowed disabled:opacity-60;
+}
+
+@utility btn-primary {
+    @apply btn bg-brand-600 text-white shadow-sm hover:bg-brand-700;
+}
+
+@utility btn-secondary {
+    @apply btn bg-slate-100 text-slate-800 hover:bg-slate-200;
+}
+
+@utility btn-ball {
+    @apply btn bg-ball text-ink shadow-sm hover:bg-ball-dark;
+}
+
+@utility btn-ghost {
+    @apply btn text-slate-600 hover:bg-slate-100;
+}
+
+/* Map pins (Leaflet divIcon) */
+.dk-pin {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  border-radius: 50% 50% 50% 0;
+  background: var(--color-brand-700);
+  transform: rotate(-45deg);
+  box-shadow: 0 2px 6px rgb(0 0 0 / 0.3);
+  border: 2px solid white;
+}
+.dk-pin > i {
+  position: absolute;
+  inset: 7px;
+  border-radius: 9999px;
+  background: var(--color-ball);
+}
+.dk-pin-live {
+  background: var(--color-brand-500);
+}
+.dk-pin-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  transform: rotate(45deg);
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  border-radius: 9999px;
+  background: #f43f5e;
+  color: white;
+  font: 700 11px/18px var(--font-sans);
+  text-align: center;
+}
+.dk-popup {
+  color: var(--color-ink);
+  text-decoration: none;
+  font-family: var(--font-sans);
+}
+.dk-popup em {
+  color: var(--color-brand-700);
+  font-style: normal;
+  font-weight: 600;
+}
+.leaflet-container {
+  font-family: var(--font-sans);
+}
+
+/* Zoom slider in the photo editor */
+.dk-range {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 8px;
+  border-radius: 9999px;
+  cursor: pointer;
+  background: linear-gradient(
+    to right,
+    var(--color-brand-400) 0,
+    var(--color-brand-400) var(--dk-fill, 0%),
+    #4e5058 var(--dk-fill, 0%),
+    #4e5058 100%
+  );
+}
+.dk-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 9999px;
+  background: #fff;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.4);
+}
+.dk-range::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border: 0;
+  border-radius: 9999px;
+  background: #fff;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.4);
+}
+.dk-range:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
