@@ -9,7 +9,6 @@ import {
   MapPin,
   MessageCircle,
   Search,
-  Trophy,
   UserPlus,
   Users,
 } from "lucide-react";
@@ -30,16 +29,6 @@ const FEATURES = [
     icon: MapPin,
     title: "Courts directory & map",
     body: "Browse indoor and outdoor courts on a map, add new ones and get directions in a tap.",
-  },
-  {
-    icon: Check,
-    title: "Live check-ins",
-    body: "Check in when you arrive so friends can see where people are playing right now.",
-  },
-  {
-    icon: Trophy,
-    title: "Skill ratings",
-    body: "Show your level from 2.0 to 5.5 so it's easy to find balanced games and the right partners.",
   },
   {
     icon: Bell,
@@ -133,7 +122,7 @@ export default function LandingPage() {
               Everything a pickleball community needs, from first-time dinkers to tournament regulars.
             </p>
           </div>
-          <div className="mt-14 grid gap-px overflow-hidden rounded-2xl border border-slate-200 bg-slate-200 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-14 grid gap-px overflow-hidden rounded-2xl border border-slate-200 bg-slate-200 sm:grid-cols-2">
             {FEATURES.map(({ icon: Icon, title, body }) => (
               <div key={title} className="bg-white p-7">
                 <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-brand-50 text-brand-700 ring-1 ring-brand-100">
